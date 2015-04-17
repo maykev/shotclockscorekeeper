@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ShotClockScoreKeeper</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_create_match">Create Match</string>
+
+    <string name="title_activity_match_complete">Match Complete</string>
+
+    <string name="title_activity_start_match">Start Match</string>
+    <string name="title_activity_match_list">Match List</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>
