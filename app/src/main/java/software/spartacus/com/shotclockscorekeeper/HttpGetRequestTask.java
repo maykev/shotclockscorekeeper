@@ -1,7 +1,6 @@
 package software.spartacus.com.shotclockscorekeeper;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +15,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class HttpRequestTask extends AsyncTask<String, Void, JSONObject> {
-    private HttpRequestCompleted listener;
+public class HttpGetRequestTask extends AsyncTask<String, Void, JSONObject> {
+    private HttpGetRequestCompleted listener;
 
-    public HttpRequestTask(HttpRequestCompleted listener) {
+    public HttpGetRequestTask(HttpGetRequestCompleted listener) {
         this.listener = listener;
     }
 
@@ -27,14 +26,15 @@ public class HttpRequestTask extends AsyncTask<String, Void, JSONObject> {
     protected JSONObject doInBackground(String... params) {
         JSONObject matches = null;
         HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
 
         try {
             URL url = new URL(params[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.addRequestProperty("accept", "application/json");
-            try {
-                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+            urlConnection.addRequestProperty("Accept", "application/json");
 
+            try {
+                inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder stringBuilder = new StringBuilder();
                 String json;
@@ -43,7 +43,7 @@ public class HttpRequestTask extends AsyncTask<String, Void, JSONObject> {
                 }
                 matches = new JSONObject(stringBuilder.toString());
             } catch (JSONException e) {
-                Log.d("DEBUG", "error creating JSON");
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -55,6 +55,12 @@ public class HttpRequestTask extends AsyncTask<String, Void, JSONObject> {
             e.printStackTrace();
         } finally {
             urlConnection.disconnect();
+
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return matches;
@@ -62,6 +68,6 @@ public class HttpRequestTask extends AsyncTask<String, Void, JSONObject> {
 
     @Override
     protected void onPostExecute(JSONObject json) {
-        listener.onHttpRequestCompleted(json);
+        listener.onHttpGetRequestCompleted(json);
     }
 }

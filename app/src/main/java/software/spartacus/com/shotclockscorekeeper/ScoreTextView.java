@@ -1,5 +1,7 @@
 package software.spartacus.com.shotclockscorekeeper;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
