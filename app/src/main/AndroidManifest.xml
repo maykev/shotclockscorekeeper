@@ -6,15 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/mezz_west_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name=".CreateMatchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_create_match"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
         <activity
             android:name=".PlayMatchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -22,23 +16,10 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".MatchCompleteActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_match_complete"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
-        <activity
-            android:name=".StartMatchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_start_match"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
-        <activity
             android:name=".MatchListActivity"
             android:label="@string/title_activity_match_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
