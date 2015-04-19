@@ -178,6 +178,8 @@ public class PlayMatchActivity extends Activity implements HttpPutRequestComplet
     protected void startNewGame(TextView textViewTimer, TextView textViewPlayer1Name, TextView textViewPlayer2Name) {
         cancelAndCreateCountDownTimer(SHOT_CLOCK_AFTER_BREAK_SECONDS * 1000, 500, textViewTimer, false);
         int unusedButtonBackgroundColor = Color.parseColor("#005b8d");
+        int timerColor = Color.parseColor("#00e900");
+        textViewTimer.setBackgroundColor(timerColor);
         textViewPlayer1Name.setBackgroundColor(unusedButtonBackgroundColor);
         textViewPlayer2Name.setBackgroundColor(unusedButtonBackgroundColor);
         textViewPlayer1Name.setEnabled(true);
