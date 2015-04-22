@@ -15,7 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PlayMatchActivity extends Activity implements HttpPutRequestCompleted {
-    private static final int SHOT_CLOCK_SECONDS = 40;
+    private static final int SHOT_CLOCK_SECONDS = 30;
     private static final int SHOT_CLOCK_AFTER_BREAK_SECONDS = 60;
 
     private static CountDownTimer countDownTimer = null;
