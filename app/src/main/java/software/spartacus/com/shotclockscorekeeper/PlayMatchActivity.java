@@ -138,8 +138,12 @@ public class PlayMatchActivity extends Activity implements HttpPutRequestComplet
             public void onTick(long millisUntilFinished) {
 
                 int secondsRemaining = (int) Math.floor(millisUntilFinished / 1000);
-                if (secondsRemaining <= 10) {
+                if (secondsRemaining == 0) {
                     int warningTimerColor = Color.parseColor("#e50000");
+                    textViewTimer.setBackgroundColor(warningTimerColor);
+                }
+                else if (secondsRemaining <= 10) {
+                    int warningTimerColor = Color.parseColor("#F2EA00");
                     textViewTimer.setBackgroundColor(warningTimerColor);
                 } else {
                     int timerColor = Color.parseColor("#00e900");
