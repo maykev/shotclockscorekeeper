@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.content.res.Configuration;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,16 +55,18 @@ public class PlayMatchActivity extends Activity implements HttpPutRequestComplet
         updateScore();
         startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
 
-        textViewTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Integer.parseInt(textViewTimer.getText().toString()) == SHOT_CLOCK_AFTER_BREAK_SECONDS) {
-                    countDownTimer.start();
-                } else {
-                    cancelAndCreateCountDownTimer(SHOT_CLOCK_SECONDS * 1000 + 500, 500, textViewTimer);
+        if (textViewTimer != null) {
+            textViewTimer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Integer.parseInt(textViewTimer.getText().toString()) == SHOT_CLOCK_AFTER_BREAK_SECONDS) {
+                        countDownTimer.start();
+                    } else {
+                        cancelAndCreateCountDownTimer(SHOT_CLOCK_SECONDS * 1000 + 500, 500, textViewTimer);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         scoreTextViewPlayer1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +104,28 @@ public class PlayMatchActivity extends Activity implements HttpPutRequestComplet
         super.onPostCreate(savedInstanceState);
     }
 
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+        }
+    }
+
     private void playerExtension(View view, TextView textViewTimer) {
-        TextView textViewPlayerName = (TextView) view;
+        if (textViewTimer != null) {
+            TextView textViewPlayerName = (TextView) view;
 
-        int usedButtonBackgroundColor = Color.parseColor("#e50000");
-        textViewPlayerName.setBackgroundColor(usedButtonBackgroundColor);
-        textViewPlayerName.setEnabled(false);
+            int usedButtonBackgroundColor = Color.parseColor("#e50000");
+            textViewPlayerName.setBackgroundColor(usedButtonBackgroundColor);
+            textViewPlayerName.setEnabled(false);
 
-        long secondsRemaining = Integer.parseInt(textViewTimer.getText().toString());
-        cancelAndCreateCountDownTimer(SHOT_CLOCK_SECONDS * 1000 + secondsRemaining * 1000, 500, textViewTimer);
+            long secondsRemaining = Integer.parseInt(textViewTimer.getText().toString());
+            cancelAndCreateCountDownTimer(SHOT_CLOCK_SECONDS * 1000 + secondsRemaining * 1000, 500, textViewTimer);
+        }
     }
 
     private void cancelAndCreateCountDownTimer(long millisInFuture, long countDownInterval, TextView textView) {
@@ -180,14 +195,16 @@ public class PlayMatchActivity extends Activity implements HttpPutRequestComplet
     }
 
     protected void startNewGame(TextView textViewTimer, TextView textViewPlayer1Name, TextView textViewPlayer2Name) {
-        cancelAndCreateCountDownTimer(SHOT_CLOCK_AFTER_BREAK_SECONDS * 1000, 500, textViewTimer, false);
-        int unusedButtonBackgroundColor = Color.parseColor("#005b8d");
-        int timerColor = Color.parseColor("#00e900");
-        textViewTimer.setBackgroundColor(timerColor);
-        textViewPlayer1Name.setBackgroundColor(unusedButtonBackgroundColor);
-        textViewPlayer2Name.setBackgroundColor(unusedButtonBackgroundColor);
-        textViewPlayer1Name.setEnabled(true);
-        textViewPlayer2Name.setEnabled(true);
+        if (textViewTimer != null) {
+            cancelAndCreateCountDownTimer(SHOT_CLOCK_AFTER_BREAK_SECONDS * 1000, 500, textViewTimer, false);
+            int unusedButtonBackgroundColor = Color.parseColor("#005b8d");
+            int timerColor = Color.parseColor("#00e900");
+            textViewTimer.setBackgroundColor(timerColor);
+            textViewPlayer1Name.setBackgroundColor(unusedButtonBackgroundColor);
+            textViewPlayer2Name.setBackgroundColor(unusedButtonBackgroundColor);
+            textViewPlayer1Name.setEnabled(true);
+            textViewPlayer2Name.setEnabled(true);
+        }
     }
 
     @Override
