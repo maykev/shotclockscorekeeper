@@ -15,6 +15,8 @@ public class PlayMatchActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getActionBar().hide();
+
         if (savedInstanceState == null) {
             Match match = getIntent().getParcelableExtra(EXTRA_MATCH);
             if (match == null) {
