@@ -1,8 +1,8 @@
 package software.spartacus.com.shotclockscorekeeper;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +13,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CreateMatchActivity extends Activity implements HttpGetRequestCompleted, HttpPostRequestCompleted {
+public class CreateMatchActivity extends AppCompatActivity implements HttpGetRequestCompleted, HttpPostRequestCompleted {
+
+    private static final String TAG = "CreateMatchActivity";
+
     private Spinner spinnerPlayer1;
     private Spinner spinnerPlayer2;
     private Spinner spinnerTableNumber;
@@ -31,7 +34,7 @@ public class CreateMatchActivity extends Activity implements HttpGetRequestCompl
         spinnerTableNumber = (Spinner) findViewById(R.id.spinnerTableNumber);
         buttonStartMatch = (Button) findViewById(R.id.buttonStartMatch);
 
-        new HttpGetRequestTask(this).execute(new String[]{"http://assistant-tournament-director.herokuapp.com/player"});
+        new HttpGetRequestTask(this).execute("http://assistant-tournament-director.herokuapp.com/player");
 
         buttonStartMatch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +42,16 @@ public class CreateMatchActivity extends Activity implements HttpGetRequestCompl
                 createMatch();
             }
         });
+
+        Player playerOne = new Player("player-one", "Player One FN", "Player One DN", "10");
+        Player playerTwo = new Player("player-two", "Player Two FN", "Player Two DN", "12");
+
+        Match match = new Match("match-id", playerOne, playerTwo);
+
+        Intent intent = new Intent(this, PlayMatchActivity.class)
+                .putExtra(PlayMatchActivity.EXTRA_MATCH, match);
+
+        startActivity(intent);
     }
 
     private void createMatch() {
@@ -87,36 +100,18 @@ public class CreateMatchActivity extends Activity implements HttpGetRequestCompl
     }
 
     @Override
-    public void onHttpPostRequestCompleted(JSONObject match) {
-        String matchId = null;
-        String player1Id = null;
-        String player2Id = null;
-        String player1DisplayName = null;
-        String player2DisplayName = null;
-        String player1GamesOnTheWire = null;
-        String player2GamesOnTheWire = null;
-
+    public void onHttpPostRequestCompleted(JSONObject jsonObject) {
+        Match match = null;
         try {
-            matchId = match.getString("id");
-            JSONArray players = match.getJSONArray("players");
-            player1Id = players.getJSONObject(0).getString("id");
-            player2Id = players.getJSONObject(1).getString("id");
-            player1DisplayName = players.getJSONObject(0).getString("display_name");
-            player2DisplayName = players.getJSONObject(1).getString("display_name");
-            player1GamesOnTheWire = String.valueOf(players.getJSONObject(0).getInt("games_on_the_wire"));
-            player2GamesOnTheWire = String.valueOf(players.getJSONObject(1).getInt("games_on_the_wire"));
+            match = Match.fromJson(jsonObject);
         } catch (JSONException e) {
-            Log.d("DEBUG", e.getMessage());
+            Log.e(TAG, "Unable to parse match json: " + jsonObject, e);
+            return;
         }
 
-        Intent intent = new Intent(this, PlayMatchActivity.class);
-        intent.putExtra("matchId", matchId);
-        intent.putExtra("player1Id", player1Id);
-        intent.putExtra("player2Id", player2Id);
-        intent.putExtra("player1Name", player1DisplayName);
-        intent.putExtra("player2Name", player2DisplayName);
-        intent.putExtra("player1GamesOnTheWire", player1GamesOnTheWire);
-        intent.putExtra("player2GamesOnTheWire", player2GamesOnTheWire);
+        Intent intent = new Intent(this, PlayMatchActivity.class)
+                .putExtra(PlayMatchActivity.EXTRA_MATCH, match);
+
         startActivity(intent);
     }
 }

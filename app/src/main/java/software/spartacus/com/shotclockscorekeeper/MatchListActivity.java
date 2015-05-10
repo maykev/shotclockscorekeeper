@@ -13,9 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MatchListActivity extends ListActivity implements HttpGetRequestCompleted {
-    String[] matchPlayers = null;
-    JSONArray matches = null;
+
+    private static final String TAG = "MatchListActivity";
+    List<Match> matches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,55 +27,32 @@ public class MatchListActivity extends ListActivity implements HttpGetRequestCom
 
         setContentView(R.layout.activity_match_list);
 
-        new HttpGetRequestTask(this).execute(new String[]{"http://assistant-tournament-director.herokuapp.com"});
+        new HttpGetRequestTask(this).execute("http://assistant-tournament-director.herokuapp.com");
     }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        String matchId = null;
-        String player1Id = null;
-        String player2Id = null;
-        String player1DisplayName = null;
-        String player2DisplayName = null;
-        String player1GamesOnTheWire = null;
-        String player2GamesOnTheWire = null;
+        Intent intent = new Intent(this, PlayMatchActivity.class)
+                .putExtra(PlayMatchActivity.EXTRA_MATCH, matches.get(position));
 
-        try {
-            JSONObject match = matches.getJSONObject(position);
-            matchId = match.getString("id");
-            JSONArray players = match.getJSONArray("players");
-            player1Id = players.getJSONObject(0).getString("id");
-            player2Id = players.getJSONObject(1).getString("id");
-            player1DisplayName = players.getJSONObject(0).getString("display_name");
-            player2DisplayName = players.getJSONObject(1).getString("display_name");
-            player1GamesOnTheWire = String.valueOf(players.getJSONObject(0).getInt("games_on_the_wire"));
-            player2GamesOnTheWire = String.valueOf(players.getJSONObject(1).getInt("games_on_the_wire"));
-        } catch (JSONException e) {
-            Log.d("DEBUG", e.getMessage());
-        }
-
-        Intent intent = new Intent(this, PlayMatchActivity.class);
-        intent.putExtra("matchId", matchId);
-        intent.putExtra("player1Id", player1Id);
-        intent.putExtra("player2Id", player2Id);
-        intent.putExtra("player1Name", player1DisplayName);
-        intent.putExtra("player2Name", player2DisplayName);
-        intent.putExtra("player1GamesOnTheWire", player1GamesOnTheWire);
-        intent.putExtra("player2GamesOnTheWire", player2GamesOnTheWire);
         startActivity(intent);
     }
 
     @Override
     public void onHttpGetRequestCompleted(JSONObject json) {
+        matches = new ArrayList<>();
+        String[] matchPlayers = null;
+
         try {
-            matches = json.getJSONArray("matches");
-            matchPlayers = new String[matches.length()];
-            for(int count = 0; count < matches.length(); count++) {
-                JSONArray players = matches.getJSONObject(count).getJSONArray("players");
-                matchPlayers[count] = players.getJSONObject(0).getString("full_name") + " vs " + players.getJSONObject(1).getString("full_name");
+            JSONArray matchesJson = json.getJSONArray("matches");
+            matchPlayers = new String[matchesJson.length()];
+
+            for(int i = 0; i < matchesJson.length(); i++) {
+                Match match = Match.fromJson(matchesJson.getJSONObject(i));
+                matchPlayers[i] = match.getPlayerOne().getFullName() + " vs " + match.getPlayerTwo().getFullName();
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to parse matches json: " + json, e);
         }
 
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, matchPlayers);
