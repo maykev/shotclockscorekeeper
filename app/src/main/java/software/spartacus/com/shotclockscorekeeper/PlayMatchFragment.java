@@ -185,7 +185,7 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
             e.printStackTrace();
         }
 
-        //new HttpPutRequestTask(this).execute(new String[]{"http://assistant-tournament-director.herokuapp.com/match/" + match.getId(), scoreUpdate.toString()});
+        new HttpPutRequestTask(this).execute(new String[]{"http://assistant-tournament-director.herokuapp.com/match/" + match.getId(), scoreUpdate.toString()});
     }
 
     protected void startNewGame(TextView textViewTimer, TextView textViewPlayer1Name, TextView textViewPlayer2Name) {

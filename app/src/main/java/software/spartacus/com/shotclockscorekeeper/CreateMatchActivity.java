@@ -42,16 +42,6 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
                 createMatch();
             }
         });
-
-        Player playerOne = new Player("player-one", "Player One FN", "Player One DN", "10");
-        Player playerTwo = new Player("player-two", "Player Two FN", "Player Two DN", "12");
-
-        Match match = new Match("match-id", playerOne, playerTwo);
-
-        Intent intent = new Intent(this, PlayMatchActivity.class)
-                .putExtra(PlayMatchActivity.EXTRA_MATCH, match);
-
-        startActivity(intent);
     }
 
     private void createMatch() {
@@ -101,7 +91,7 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
 
     @Override
     public void onHttpPostRequestCompleted(JSONObject jsonObject) {
-        Match match = null;
+        Match match;
         try {
             match = Match.fromJson(jsonObject);
         } catch (JSONException e) {
