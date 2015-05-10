@@ -57,8 +57,9 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
 
         textViewPlayer1Name.setText(match.getPlayerOne().getDisplayName());
         textViewPlayer2Name.setText(match.getPlayerTwo().getDisplayName());
-        scoreTextViewPlayer1.setText(match.getPlayerOne().getGamesOnTheWire());
-        scoreTextViewPlayer2.setText(match.getPlayerTwo().getGamesOnTheWire());
+
+        scoreTextViewPlayer1.setScore(match.getPlayerOne().getGamesOnTheWire());
+        scoreTextViewPlayer2.setScore(match.getPlayerTwo().getGamesOnTheWire());
 
         updateScore();
         startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
@@ -174,9 +175,9 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
             JSONObject player2 = new JSONObject();
 
             player1.put("id", match.getPlayerOne().getId());
-            player1.put("score", Integer.parseInt(scoreTextViewPlayer1.getText().toString()));
+            player1.put("score", scoreTextViewPlayer1.getScore());
             player2.put("id", match.getPlayerTwo().getId());
-            player2.put("score", Integer.parseInt(scoreTextViewPlayer2.getText().toString()));
+            player2.put("score", scoreTextViewPlayer2.getScore());
             JSONArray players = new JSONArray();
             players.put(player1);
             players.put(player2);
