@@ -18,14 +18,15 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     private static final int SHOT_CLOCK_SECONDS = 30;
     private static final int SHOT_CLOCK_AFTER_BREAK_SECONDS = 60;
 
-
     private static CountDownTimer countDownTimer = null;
 
     private ScoreTextView scoreTextViewPlayer1 = null;
     private ScoreTextView scoreTextViewPlayer2 = null;
 
-
     private Match match;
+
+    private int playerOneScore = 0;
+    private int playerTwoScore = 0;
 
     public static PlayMatchFragment newInstance(Match match) {
         Bundle args = new Bundle();
@@ -40,6 +41,10 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        match = getArguments().getParcelable("match");
+        playerOneScore = match.getPlayerOne().getGamesOnTheWire();
+        playerTwoScore = match.getPlayerTwo().getGamesOnTheWire();
     }
 
     @Override
@@ -53,13 +58,30 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
         scoreTextViewPlayer1 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer1);
         scoreTextViewPlayer2 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer2);
 
-        match = getArguments().getParcelable("match");
 
         textViewPlayer1Name.setText(match.getPlayerOne().getDisplayName());
         textViewPlayer2Name.setText(match.getPlayerTwo().getDisplayName());
 
-        scoreTextViewPlayer1.setScore(match.getPlayerOne().getGamesOnTheWire());
-        scoreTextViewPlayer2.setScore(match.getPlayerTwo().getGamesOnTheWire());
+        scoreTextViewPlayer1.setScore(playerOneScore);
+        scoreTextViewPlayer1.setListener(new ScoreTextView.Listener() {
+            @Override
+            public void onScoreChanged(int score) {
+                playerOneScore = score;
+                startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
+                updateScore();
+
+            }
+        });
+
+        scoreTextViewPlayer2.setScore(playerTwoScore);
+        scoreTextViewPlayer2.setListener(new ScoreTextView.Listener() {
+            @Override
+            public void onScoreChanged(int score) {
+                playerTwoScore = score;
+                startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
+                updateScore();
+            }
+        });
 
         updateScore();
         startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
@@ -76,22 +98,6 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
                 }
             });
         }
-
-        scoreTextViewPlayer1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateScore();
-                startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
-            }
-        });
-
-        scoreTextViewPlayer2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateScore();
-                startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
-            }
-        });
 
         textViewPlayer1Name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,9 +181,9 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
             JSONObject player2 = new JSONObject();
 
             player1.put("id", match.getPlayerOne().getId());
-            player1.put("score", scoreTextViewPlayer1.getScore());
+            player1.put("score", playerOneScore);
             player2.put("id", match.getPlayerTwo().getId());
-            player2.put("score", scoreTextViewPlayer2.getScore());
+            player2.put("score", playerTwoScore);
             JSONArray players = new JSONArray();
             players.put(player1);
             players.put(player2);
