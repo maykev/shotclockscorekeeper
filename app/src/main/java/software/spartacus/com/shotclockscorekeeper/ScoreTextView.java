@@ -1,7 +1,5 @@
 package software.spartacus.com.shotclockscorekeeper;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
@@ -10,7 +8,13 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 public class ScoreTextView extends TextView implements GestureDetector.OnGestureListener {
+    private int score = 0;
     private GestureDetector gestureDetector;
+    private Listener listener;
+
+    public interface Listener {
+        public void onScoreChanged(int score);
+    }
 
     public ScoreTextView(Context context) {
         super(context);
@@ -47,11 +51,12 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
         if (event1.getY() > event2.getY()) {
-            incrementPlayerScore(this);
+            score++;
         } else {
-            decrementPlayerScore(this);
+            score--;
         }
 
+        updateScore();
         return true;
     }
 
@@ -72,17 +77,29 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
 
     @Override
     public boolean onSingleTapUp(MotionEvent event) {
-        incrementPlayerScore(this);
+        score++;
+        updateScore();
         return true;
     }
 
-    private void incrementPlayerScore(ScoreTextView scoreTextView) {
-        int score = Integer.parseInt(scoreTextView.getText().toString());
-        scoreTextView.setText(String.valueOf(++score));
+    public int getScore() {
+        return score;
     }
 
-    private void decrementPlayerScore(ScoreTextView scoreTextView) {
-        int score = Integer.parseInt(scoreTextView.getText().toString());
-        scoreTextView.setText(String.valueOf(--score));
+    public void setScore(int score) {
+        this.score = score;
+        updateScore();
+    }
+
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    private void updateScore() {
+        setText(String.valueOf(score));
+
+        if (listener != null) {
+            listener.onScoreChanged(score);
+        }
     }
 }
