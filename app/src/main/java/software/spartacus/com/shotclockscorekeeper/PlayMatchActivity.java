@@ -1,10 +1,10 @@
 package software.spartacus.com.shotclockscorekeeper;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class PlayMatchActivity extends FragmentActivity {
+public class PlayMatchActivity extends AppCompatActivity {
 
     private static final String TAG = "PlayMatchActivity";
 
@@ -14,8 +14,6 @@ public class PlayMatchActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getActionBar().hide();
 
         if (savedInstanceState == null) {
             Match match = getIntent().getParcelableExtra(EXTRA_MATCH);
