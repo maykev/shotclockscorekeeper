@@ -1,8 +1,11 @@
 package software.spartacus.com.shotclockscorekeeper;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +23,14 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
 
     private static CountDownTimer countDownTimer = null;
 
-    private ScoreTextView scoreTextViewPlayer1 = null;
-    private ScoreTextView scoreTextViewPlayer2 = null;
-
     private Match match;
+    private String breakPlayerId;
 
     private int playerOneScore = 0;
     private int playerTwoScore = 0;
+
+    private View playerOneBreakIndicator;
+    private View playerTwoBreakIndicator;
 
     public static PlayMatchFragment newInstance(Match match) {
         Bundle args = new Bundle();
@@ -52,12 +56,14 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
 
         View view = inflater.inflate(R.layout.activity_play_match, container, false);
 
+        playerOneBreakIndicator = view.findViewById(R.id.break_indicator_p1);
+        playerTwoBreakIndicator = view.findViewById(R.id.break_indicator_p2);
+
         final TextView textViewTimer = (TextView) view.findViewById(R.id.textViewTimer);
         final TextView textViewPlayer1Name = (TextView) view.findViewById(R.id.textViewPlayer1Name);
         final TextView textViewPlayer2Name = (TextView) view.findViewById(R.id.textViewPlayer2Name);
-        scoreTextViewPlayer1 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer1);
-        scoreTextViewPlayer2 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer2);
-
+        ScoreTextView scoreTextViewPlayer1 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer1);
+        ScoreTextView scoreTextViewPlayer2 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer2);
 
         textViewPlayer1Name.setText(match.getPlayerOne().getDisplayName());
         textViewPlayer2Name.setText(match.getPlayerTwo().getDisplayName());
@@ -114,6 +120,25 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (breakPlayerId == null && getChildFragmentManager().findFragmentByTag("TAG") == null) {
+            DialogFragment dialogFragment = CoinFlipDialogFragment.newInstance(match);
+            dialogFragment.setTargetFragment(this, 100);
+            dialogFragment.show(getChildFragmentManager(), "TAG");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            breakPlayerId = data.getStringExtra(CoinFlipDialogFragment.COIN_FLIP_WINNER_PLAYER_ID);
+            updateBreakIndicator();
+        }
     }
 
     private void playerExtension(View view, TextView textViewTimer) {
@@ -205,6 +230,30 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
             textViewPlayer2Name.setBackgroundColor(unusedButtonBackgroundColor);
             textViewPlayer1Name.setEnabled(true);
             textViewPlayer2Name.setEnabled(true);
+        }
+
+        if (breakPlayerId != null) {
+            if (match.getPlayerOne().getId().equals(breakPlayerId)) {
+                breakPlayerId = match.getPlayerTwo().getId();
+            } else {
+                breakPlayerId = match.getPlayerOne().getId();
+            }
+
+            updateBreakIndicator();
+        }
+    }
+
+    private void updateBreakIndicator() {
+        if (breakPlayerId == null || playerOneBreakIndicator == null || playerTwoBreakIndicator == null) {
+            return;
+        }
+
+        if (match.getPlayerOne().getId().equals(breakPlayerId)) {
+            playerOneBreakIndicator.setVisibility(View.VISIBLE);
+            playerTwoBreakIndicator.setVisibility(View.INVISIBLE);
+        } else {
+            playerOneBreakIndicator.setVisibility(View.INVISIBLE);
+            playerTwoBreakIndicator.setVisibility(View.VISIBLE);
         }
     }
 
