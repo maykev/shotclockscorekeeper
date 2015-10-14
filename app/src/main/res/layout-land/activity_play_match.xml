@@ -25,27 +25,16 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:paddingLeft="96dp"
                     android:id="@+id/textViewPlayer1Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ff005b8d"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
                     android:textSize="100sp"
                     android:typeface="sans"
                     android:maxLines="1"
                     tools:text="Kevin May" />
-
-                <ImageView
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/break_indicator_p1"
-                    android:visibility="invisible"
-                    android:layout_centerInParent="true"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:src="@drawable/ic_cueball"
-                    tools:visibility="visible"/>
 
             </RelativeLayout>
 
@@ -73,27 +62,16 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:paddingLeft="96dp"
                     android:id="@+id/textViewPlayer2Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#ff005b8d"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
                     android:textSize="100sp"
                     android:typeface="sans"
                     android:maxLines="1"
                     tools:text="Kevin May" />
-
-                <ImageView
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/break_indicator_p2"
-                    android:visibility="invisible"
-                    android:layout_centerInParent="true"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:src="@drawable/ic_cueball"
-                    tools:visibility="visible"/>
 
             </RelativeLayout>
 

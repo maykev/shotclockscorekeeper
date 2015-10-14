@@ -3,6 +3,7 @@ package software.spartacus.com.shotclockscorekeeper;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.DialogFragment;
@@ -29,8 +30,8 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     private int playerOneScore = 0;
     private int playerTwoScore = 0;
 
-    private View playerOneBreakIndicator;
-    private View playerTwoBreakIndicator;
+    private TextView textViewPlayer1Name;
+    private TextView textViewPlayer2Name;
 
     public static PlayMatchFragment newInstance(Match match) {
         Bundle args = new Bundle();
@@ -56,12 +57,10 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
 
         View view = inflater.inflate(R.layout.activity_play_match, container, false);
 
-        playerOneBreakIndicator = view.findViewById(R.id.break_indicator_p1);
-        playerTwoBreakIndicator = view.findViewById(R.id.break_indicator_p2);
+        textViewPlayer1Name = (TextView) view.findViewById(R.id.textViewPlayer1Name);
+        textViewPlayer2Name = (TextView) view.findViewById(R.id.textViewPlayer2Name);
 
         final TextView textViewTimer = (TextView) view.findViewById(R.id.textViewTimer);
-        final TextView textViewPlayer1Name = (TextView) view.findViewById(R.id.textViewPlayer1Name);
-        final TextView textViewPlayer2Name = (TextView) view.findViewById(R.id.textViewPlayer2Name);
         ScoreTextView scoreTextViewPlayer1 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer1);
         ScoreTextView scoreTextViewPlayer2 = (ScoreTextView) view.findViewById(R.id.scoreTextViewPlayer2);
 
@@ -244,16 +243,24 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     }
 
     private void updateBreakIndicator() {
-        if (breakPlayerId == null || playerOneBreakIndicator == null || playerTwoBreakIndicator == null) {
+        if (breakPlayerId == null || textViewPlayer1Name == null || textViewPlayer2Name == null) {
             return;
         }
 
         if (match.getPlayerOne().getId().equals(breakPlayerId)) {
-            playerOneBreakIndicator.setVisibility(View.VISIBLE);
-            playerTwoBreakIndicator.setVisibility(View.INVISIBLE);
+            textViewPlayer1Name.setAllCaps(true);
+            textViewPlayer1Name.setTypeface(Typeface.DEFAULT_BOLD);
+            textViewPlayer1Name.setTextColor(Color.WHITE);
+            textViewPlayer2Name.setAllCaps(false);
+            textViewPlayer2Name.setTypeface(Typeface.DEFAULT);
+            textViewPlayer2Name.setTextColor(Color.LTGRAY);
         } else {
-            playerOneBreakIndicator.setVisibility(View.INVISIBLE);
-            playerTwoBreakIndicator.setVisibility(View.VISIBLE);
+            textViewPlayer1Name.setAllCaps(false);
+            textViewPlayer1Name.setTypeface(Typeface.DEFAULT);
+            textViewPlayer1Name.setTextColor(Color.LTGRAY);
+            textViewPlayer2Name.setAllCaps(true);
+            textViewPlayer2Name.setTypeface(Typeface.DEFAULT_BOLD);
+            textViewPlayer2Name.setTextColor(Color.WHITE);
         }
     }
 

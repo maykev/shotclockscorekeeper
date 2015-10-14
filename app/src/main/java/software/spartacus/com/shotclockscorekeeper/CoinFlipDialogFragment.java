@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.widget.Button;
 
 public class CoinFlipDialogFragment extends DialogFragment {
 
@@ -27,7 +28,7 @@ public class CoinFlipDialogFragment extends DialogFragment {
 
         final Match match = getArguments().getParcelable("match");
 
-        Dialog dialog = new AlertDialog.Builder(getActivity())
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.coin_flip_title, match.getTableNumber()))
                 .setMessage(R.string.coin_flip_message)
                 .setNegativeButton(match.getPlayerOne().getDisplayName(), new DialogInterface.OnClickListener() {
@@ -47,6 +48,17 @@ public class CoinFlipDialogFragment extends DialogFragment {
                     }
                 })
                 .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button btnPositive = dialog.getButton(Dialog.BUTTON_POSITIVE);
+                btnPositive.setTextSize(40);
+
+                Button btnNegative = dialog.getButton(Dialog.BUTTON_NEGATIVE);
+                btnNegative.setTextSize(40);
+            }
+        });
 
         dialog.setCanceledOnTouchOutside(false);
         return dialog;

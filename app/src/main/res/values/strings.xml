@@ -2,8 +2,8 @@
     <string name="app_name">Mezz West State Tour</string>
     <string name="title_activity_match_list">Mezz West State Tour</string>
     <string name="title_activity_create_match">Mezz West State Tour</string>
-    <string name="coin_flip_title">Table %s - Coin Flip</string>
-    <string name="coin_flip_message">Who won the coin flip?</string>
+    <string name="coin_flip_title">Your match is on table %s</string>
+    <string name="coin_flip_message">Who won the lag?</string>
 
     <string-array name="tableNumbers">
         <item>1</item>
