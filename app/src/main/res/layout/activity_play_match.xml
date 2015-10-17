@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="200dp"
+                android:textSize="250dp"
                 android:typeface="sans"
                 tools:text="3" />
 
@@ -97,7 +97,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="200dp"
+                android:textSize="250dp"
                 android:typeface="sans"
                 tools:text="4" />
 

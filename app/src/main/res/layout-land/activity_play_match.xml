@@ -31,7 +31,7 @@
                     android:background="#ff005b8d"
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
-                    android:textSize="100sp"
+                    android:textSize="90sp"
                     android:typeface="sans"
                     android:maxLines="1"
                     tools:text="Kevin May" />
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="325sp"
+                android:textSize="340sp"
                 android:typeface="sans"
                 tools:text="3" />
 
@@ -68,7 +68,7 @@
                     android:background="#ff005b8d"
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
-                    android:textSize="100sp"
+                    android:textSize="90sp"
                     android:typeface="sans"
                     android:maxLines="1"
                     tools:text="Kevin May" />
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="325sp"
+                android:textSize="340sp"
                 android:typeface="sans"
                 tools:text="4" />
 
