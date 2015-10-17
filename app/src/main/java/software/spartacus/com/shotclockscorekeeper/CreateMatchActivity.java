@@ -45,6 +45,8 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
     }
 
     private void createMatch() {
+        buttonStartMatch.setEnabled(false);
+
         JSONObject createMatch = new JSONObject();
 
         try {
@@ -80,6 +82,7 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
                 playerIds[count] = Integer.parseInt(players.getJSONObject(count).getString("id"));
             }
         } catch (JSONException e) {
+            buttonStartMatch.setEnabled(true);
             e.printStackTrace();
         }
 
@@ -95,6 +98,7 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
         try {
             match = Match.fromJson(jsonObject);
         } catch (JSONException e) {
+            buttonStartMatch.setEnabled(true);
             Log.e(TAG, "Unable to parse match json: " + jsonObject, e);
             return;
         }
@@ -103,5 +107,6 @@ public class CreateMatchActivity extends AppCompatActivity implements HttpGetReq
                 .putExtra(PlayMatchActivity.EXTRA_MATCH, match);
 
         startActivity(intent);
+        buttonStartMatch.setEnabled(true);
     }
 }

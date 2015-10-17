@@ -39,26 +39,15 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:paddingLeft="64dp"
                     android:id="@+id/textViewPlayer1Name"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:background="#ff005b8d"
-                    android:gravity="center"
+                    android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
                     android:textSize="50sp"
                     android:typeface="sans"
                     tools:text="Kevin May" />
-
-                <ImageView
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/break_indicator_p1"
-                    android:visibility="invisible"
-                    android:layout_centerInParent="true"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_cueball"
-                    tools:visibility="visible"/>
 
             </RelativeLayout>
 
@@ -88,26 +77,15 @@
 
                 <TextView
                     android:layout_alignParentLeft="true"
-                    android:paddingLeft="64dp"
                     android:id="@+id/textViewPlayer2Name"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
                     android:background="#ff005b8d"
-                    android:gravity="center"
+                    android:gravity="center_vertical|center_horizontal"
                     android:textColor="#ffffffff"
                     android:textSize="50sp"
                     android:typeface="sans"
                     tools:text="Kevin May" />
-
-                <ImageView
-                    android:layout_alignParentLeft="true"
-                    android:id="@+id/break_indicator_p2"
-                    android:visibility="invisible"
-                    android:layout_centerInParent="true"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_cueball"
-                    tools:visibility="visible"/>
 
             </RelativeLayout>
 
