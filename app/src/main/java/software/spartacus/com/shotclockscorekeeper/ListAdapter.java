@@ -52,11 +52,6 @@ public abstract class ListAdapter<T> extends BaseAdapter {
 
     protected abstract void bindView(View view, T item, int position);
 
-    public void setItems(Collection<T> items) {
-        clear();
-        addAll(items);
-    }
-
     public void add(int index, T item) {
         synchronized (listLock) {
             items.add(index, item);

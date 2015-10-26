@@ -120,8 +120,8 @@ public class CreateMatchActivity extends AppCompatActivity {
         this.players.addAll(players);
 
 
-        ((PlayerListingAdapter) spinnerPlayer1.getAdapter()).setItems(players);
-        ((PlayerListingAdapter) spinnerPlayer2.getAdapter()).setItems(players);
+        ((PlayerListingAdapter) spinnerPlayer1.getAdapter()).replaceAll(players);
+        ((PlayerListingAdapter) spinnerPlayer2.getAdapter()).replaceAll(players);
     }
 
     private static class PlayerListingAdapter extends ListAdapter<PlayerListingInfo> {
