@@ -13,7 +13,7 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
     private Listener listener;
 
     public interface Listener {
-        public void onScoreChanged(int score);
+        void onScoreChanged(int score);
     }
 
     public ScoreTextView(Context context) {
