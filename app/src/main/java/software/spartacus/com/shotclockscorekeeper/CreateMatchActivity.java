@@ -48,7 +48,7 @@ public class CreateMatchActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             List<PlayerListingInfo> savedPlayerInfo = savedInstanceState.getParcelableArrayList("player_info");
             if (savedPlayerInfo != null) {
-                players.addAll(savedPlayerInfo);
+                setPlayerListing(savedPlayerInfo);
             }
         }
     }
