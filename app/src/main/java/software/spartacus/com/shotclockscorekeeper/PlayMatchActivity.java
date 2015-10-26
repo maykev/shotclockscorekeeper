@@ -10,7 +10,6 @@ public class PlayMatchActivity extends AppCompatActivity {
 
     public static final String EXTRA_MATCH = "match";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

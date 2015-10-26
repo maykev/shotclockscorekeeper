@@ -15,10 +15,6 @@
             android:theme="@style/FullscreenTheme" >
         </activity>
         <activity
-            android:name=".MatchListActivity"
-            android:label="@string/title_activity_match_list" >
-        </activity>
-        <activity
             android:name=".CreateMatchActivity"
             android:label="@string/title_activity_create_match" >
             <intent-filter>
