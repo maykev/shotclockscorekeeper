@@ -13,11 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class PlayMatchFragment extends Fragment implements HttpPutRequestCompleted {
+public class PlayMatchFragment extends Fragment {
 
     private static final int SHOT_CLOCK_SECONDS = 30;
     private static final int SHOT_CLOCK_AFTER_BREAK_SECONDS = 60;
@@ -32,6 +28,7 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
 
     private TextView textViewPlayer1Name;
     private TextView textViewPlayer2Name;
+    private MatchClient client;
 
     public static PlayMatchFragment newInstance(Match match) {
         Bundle args = new Bundle();
@@ -46,6 +43,8 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        client = new MatchClient(getContext(), this);
 
         match = getArguments().getParcelable("match");
         playerOneScore = match.getPlayerOne().getGamesOnTheWire();
@@ -198,25 +197,7 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
     }
 
     public void updateScore() {
-        JSONObject scoreUpdate = new JSONObject();
-
-        try {
-            JSONObject player1 = new JSONObject();
-            JSONObject player2 = new JSONObject();
-
-            player1.put("id", match.getPlayerOne().getId());
-            player1.put("score", playerOneScore);
-            player2.put("id", match.getPlayerTwo().getId());
-            player2.put("score", playerTwoScore);
-            JSONArray players = new JSONArray();
-            players.put(player1);
-            players.put(player2);
-            scoreUpdate.put("players", players);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        new HttpPutRequestTask(this).execute(new String[]{"http://assistant-tournament-director.herokuapp.com/match/" + match.getId(), scoreUpdate.toString()});
+        client.updateScore(match, playerOneScore, playerTwoScore);
     }
 
     protected void startNewGame(TextView textViewTimer, TextView textViewPlayer1Name, TextView textViewPlayer2Name) {
@@ -264,8 +245,8 @@ public class PlayMatchFragment extends Fragment implements HttpPutRequestComplet
         }
     }
 
-    @Override
-    public void onHttpPutRequestCompleted(Boolean success) {
-
+    public void onDestroy () {
+        super.onDestroy();
+        client.cancelRequests();
     }
 }
