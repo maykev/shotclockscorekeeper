@@ -1,4 +1,4 @@
-package software.spartacus.com.shotclockscorekeeper;
+package com.spartacus.shotclockscorekeeper;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

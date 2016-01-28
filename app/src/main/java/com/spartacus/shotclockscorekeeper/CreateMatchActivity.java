@@ -1,4 +1,4 @@
-package software.spartacus.com.shotclockscorekeeper;
+package com.spartacus.shotclockscorekeeper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import software.spartacus.com.shotclockscorekeeper.R;
 
 public class CreateMatchActivity extends AppCompatActivity {
 

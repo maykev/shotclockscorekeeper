@@ -1,4 +1,4 @@
-package software.spartacus.com.shotclockscorekeeper;
+package com.spartacus.shotclockscorekeeper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
