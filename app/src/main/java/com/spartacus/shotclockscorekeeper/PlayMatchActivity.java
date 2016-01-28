@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.spartacus.shotclockscorekeeper.models.Match;
+
 public class PlayMatchActivity extends AppCompatActivity {
 
     private static final String TAG = "PlayMatchActivity";

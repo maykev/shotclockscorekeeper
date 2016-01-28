@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.spartacus.shotclockscorekeeper.models.Match;
+
 import software.spartacus.com.shotclockscorekeeper.R;
 
 public class PlayMatchFragment extends Fragment {

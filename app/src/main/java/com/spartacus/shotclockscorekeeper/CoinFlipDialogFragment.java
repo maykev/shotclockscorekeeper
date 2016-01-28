@@ -9,6 +9,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
 
+import com.spartacus.shotclockscorekeeper.models.Match;
+
 import software.spartacus.com.shotclockscorekeeper.R;
 
 public class CoinFlipDialogFragment extends DialogFragment {

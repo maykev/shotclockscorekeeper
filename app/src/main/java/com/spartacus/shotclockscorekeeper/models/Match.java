@@ -1,4 +1,4 @@
-package com.spartacus.shotclockscorekeeper;
+package com.spartacus.shotclockscorekeeper.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

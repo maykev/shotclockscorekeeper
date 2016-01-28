@@ -10,6 +10,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.spartacus.shotclockscorekeeper.models.Match;
+import com.spartacus.shotclockscorekeeper.models.PlayerListingInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +23,6 @@ import java.util.List;
 public class MatchClient {
 
     private static final String SCORE_URL = "http://assistant-tournament-director.herokuapp.com/match/";
-
     private static final String CREATE_GAME_URL = "http://assistant-tournament-director.herokuapp.com/match";
     private static final String FETCH_PLAYERS_URL = "http://assistant-tournament-director.herokuapp.com/player";
 
