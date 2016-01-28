@@ -16,8 +16,6 @@ import com.spartacus.shotclockscorekeeper.models.PlayerListingInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import software.spartacus.com.shotclockscorekeeper.R;
-
 public class CreateMatchActivity extends AppCompatActivity {
 
     private Spinner spinnerPlayer1;

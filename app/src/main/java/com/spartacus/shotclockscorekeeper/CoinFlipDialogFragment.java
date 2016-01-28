@@ -11,8 +11,6 @@ import android.widget.Button;
 
 import com.spartacus.shotclockscorekeeper.models.Match;
 
-import software.spartacus.com.shotclockscorekeeper.R;
-
 public class CoinFlipDialogFragment extends DialogFragment {
 
     public static final String COIN_FLIP_WINNER_PLAYER_ID = "COIN_FLIP_WINNER_PLAYER_ID";

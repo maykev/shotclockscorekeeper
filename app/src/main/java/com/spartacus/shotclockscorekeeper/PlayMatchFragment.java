@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 import com.spartacus.shotclockscorekeeper.models.Match;
 
-import software.spartacus.com.shotclockscorekeeper.R;
-
 public class PlayMatchFragment extends Fragment {
 
     private static final int SHOT_CLOCK_SECONDS = 30;
