@@ -32,6 +32,9 @@ public class CreateMatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_match);
 
+        TextView version = (TextView) findViewById(R.id.version);
+        version.setText("Version: " + BuildConfig.VERSION_NAME);
+
         client = new MatchClient(this, this);
         spinnerPlayer1 = (Spinner) findViewById(R.id.spinnerPlayer1);
         spinnerPlayer1.setAdapter(new PlayerListingAdapter(this));
