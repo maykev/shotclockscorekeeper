@@ -51,7 +51,7 @@
 
             </RelativeLayout>
 
-            <software.spartacus.com.shotclockscorekeeper.ScoreTextView
+            <com.spartacus.shotclockscorekeeper.ScoreTextView
                 android:id="@+id/scoreTextViewPlayer1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 
             </RelativeLayout>
 
-            <software.spartacus.com.shotclockscorekeeper.ScoreTextView
+            <com.spartacus.shotclockscorekeeper.ScoreTextView
                 android:id="@+id/scoreTextViewPlayer2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
