@@ -53,13 +53,18 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
 
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+        int newScore;
         if (event1.getY() > event2.getY()) {
-            score++;
+            newScore = Math.min(score+1, MAX_SCORE);
         } else {
-            score--;
+            newScore = Math.max(score-1, minScore);
         }
 
-        updateScore();
+        if (newScore != score) {
+            score = newScore;
+            updateScore();
+        }
+
         return true;
     }
 
@@ -80,7 +85,11 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
 
     public void setMinScore(int minScore) {
         this.minScore = minScore;
-        updateScore();
+
+        if (this.minScore > score) {
+            score = this.minScore;
+            updateScore();
+        }
     }
 
     @Override
@@ -97,6 +106,9 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
     }
 
     public void setScore(int score) {
+        score = Math.min(score, MAX_SCORE);
+        score = Math.max(score, minScore);
+
         this.score = score;
         updateScore();
     }
@@ -106,9 +118,6 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
     }
 
     private void updateScore() {
-        score = Math.min(score, MAX_SCORE);
-        score = Math.max(score, minScore);
-
         setText(String.valueOf(score));
 
         if (listener != null) {
