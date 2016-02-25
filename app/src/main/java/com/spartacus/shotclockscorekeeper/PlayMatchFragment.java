@@ -69,17 +69,18 @@ public class PlayMatchFragment extends Fragment {
         textViewPlayer2Name.setText(match.getPlayerTwo().getDisplayName());
 
         scoreTextViewPlayer1.setScore(playerOneScore);
+        scoreTextViewPlayer1.setMinScore(match.getPlayerOne().getGamesOnTheWire());
         scoreTextViewPlayer1.setListener(new ScoreTextView.Listener() {
             @Override
             public void onScoreChanged(int score) {
                 playerOneScore = score;
                 startNewGame(textViewTimer, textViewPlayer1Name, textViewPlayer2Name);
                 updateScore();
-
             }
         });
 
         scoreTextViewPlayer2.setScore(playerTwoScore);
+        scoreTextViewPlayer2.setMinScore(match.getPlayerTwo().getGamesOnTheWire());
         scoreTextViewPlayer2.setListener(new ScoreTextView.Listener() {
             @Override
             public void onScoreChanged(int score) {
