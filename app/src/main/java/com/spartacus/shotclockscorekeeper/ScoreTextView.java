@@ -8,9 +8,12 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 public class ScoreTextView extends TextView implements GestureDetector.OnGestureListener {
+    private static final int MAX_SCORE = 11;
+
     private int score = 0;
     private GestureDetector gestureDetector;
     private Listener listener;
+    private int minScore;
 
     public interface Listener {
         void onScoreChanged(int score);
@@ -75,10 +78,17 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
 
     }
 
+    public void setMinScore(int minScore) {
+        this.minScore = minScore;
+        updateScore();
+    }
+
     @Override
     public boolean onSingleTapUp(MotionEvent event) {
-        score++;
-        updateScore();
+        if (score < MAX_SCORE) {
+            score++;
+            updateScore();
+        }
         return true;
     }
 
@@ -96,6 +106,9 @@ public class ScoreTextView extends TextView implements GestureDetector.OnGesture
     }
 
     private void updateScore() {
+        score = Math.min(score, MAX_SCORE);
+        score = Math.max(score, minScore);
+
         setText(String.valueOf(score));
 
         if (listener != null) {
