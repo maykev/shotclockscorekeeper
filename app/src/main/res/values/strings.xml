@@ -5,6 +5,7 @@
     <string name="coin_flip_title">Your match is on table %s</string>
     <string name="coin_flip_message">Who won the lag?</string>
 
+    <string name="menu_refresh">Refresh</string>
     <string-array name="tableNumbers">
         <item>1</item>
         <item>2</item>

@@ -4,20 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.spartacus.shotclockscorekeeper.models.Match;
 import com.spartacus.shotclockscorekeeper.models.PlayerListingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.fabric.sdk.android.Fabric;
 
 public class CreateMatchActivity extends AppCompatActivity {
 
@@ -29,6 +28,9 @@ public class CreateMatchActivity extends AppCompatActivity {
     private List<PlayerListingInfo> players = new ArrayList<>();
 
     private MatchClient client;
+
+    private boolean isRefreshing = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,33 @@ public class CreateMatchActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_create_match, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_refresh);
+        if (isRefreshing) {
+            item.setEnabled(false);
+            item.setActionView(R.layout.action_refresh);
+        } else {
+            item.setEnabled(true);
+            item.setActionView(null);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                refreshPlayerListing();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
         if (!players.isEmpty()) {
@@ -73,25 +102,42 @@ public class CreateMatchActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
         if (players.isEmpty()) {
-            buttonStartMatch.setEnabled(false);
-
-            client.fetchPlayers(new MatchClient.Callback<List<PlayerListingInfo>>() {
-                @Override
-                public void onSuccess(List<PlayerListingInfo> players) {
-                    setPlayerListing(players);
-                    buttonStartMatch.setEnabled(true);
-                }
-
-                @Override
-                public void onFailure() {
-                    Toast.makeText(CreateMatchActivity.this, "Failed to fetch players.", Toast.LENGTH_LONG).show();
-                }
-            });
+           refreshPlayerListing();
         } else {
             buttonStartMatch.setEnabled(true);
         }
+    }
+
+    private void refreshPlayerListing() {
+        if (isRefreshing) {
+            return;
+        }
+
+        isRefreshing = true;
+        invalidateOptionsMenu();
+
+        buttonStartMatch.setEnabled(false);
+
+        client.fetchPlayers(new MatchClient.Callback<List<PlayerListingInfo>>() {
+            @Override
+            public void onSuccess(List<PlayerListingInfo> players) {
+                setPlayerListing(players);
+                buttonStartMatch.setEnabled(true);
+
+                isRefreshing = false;
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onFailure() {
+                Toast.makeText(CreateMatchActivity.this, "Failed to fetch players.", Toast.LENGTH_LONG).show();
+
+                isRefreshing = false;
+                invalidateOptionsMenu();
+            }
+        });
+
     }
 
     @Override
