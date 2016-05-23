@@ -1,0 +1,113 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.graphics.Typeface" />
+
+        <variable
+            name="viewModel"
+            type="com.spartacus.solitude.match.play.PlayMatchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:configChanges="orientation"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPlayer1Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ff005b8d"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:textSize="90sp"
+                        android:text="@{viewModel.playerOneName}"
+                        android:textAllCaps="@{viewModel.playerOneTurn}"
+                        android:textColor="@{viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
+                        android:typeface="sans"
+                        tools:text="Kevin May" />
+
+                </RelativeLayout>
+
+                <com.spartacus.solitude.match.play.SwipeTextView
+                    android:id="@+id/scoreTextViewPlayer1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#ff000000"
+                    android:textSize="340sp"
+                    android:typeface="sans"
+                    android:text="@{String.valueOf(viewModel.playerOneScore)}"
+                    tools:text="3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPlayer2Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ff005b8d"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:maxLines="1"
+                        android:text="@{viewModel.playerTwoName}"
+                        android:textAllCaps="@{!viewModel.playerOneTurn}"
+                        android:textColor="@{!viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
+                        android:textSize="90sp"
+                        android:typeface="sans"
+                        tools:text="Kevin May" />
+
+                </RelativeLayout>
+
+
+                <com.spartacus.solitude.match.play.SwipeTextView
+                    android:id="@+id/scoreTextViewPlayer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#ff000000"
+                    android:textSize="340sp"
+                    android:typeface="sans"
+                    android:text="@{String.valueOf(viewModel.playerTwoScore)}"
+                    tools:text="4" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

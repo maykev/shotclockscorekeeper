@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spartacus.shotclockscorekeeper" >
+    package="com.spartacus.solitude">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Application"
+        android:name=".SolitudeApp"
         android:allowBackup="true"
         android:icon="@drawable/mezz_west_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${fabricApiKey}" />
+
         <activity
-            android:name=".PlayMatchActivity"
+            android:name=".match.play.MatchActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name="com.spartacus.solitude.match.list.MatchListActivity"
+            android:parentActivityName="com.spartacus.solitude.MainActivity" />
+
+        <activity
+            android:name="com.spartacus.solitude.match.create.CreateMatchActivity"
+            android:parentActivityName="com.spartacus.solitude.MainActivity" />
+
+        <activity
+            android:name="com.spartacus.solitude.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
-        <activity
-            android:name=".CreateMatchActivity"
-            android:label="@string/title_activity_create_match" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${fabricApiKey}" />
+
+        <service android:name=".MatchUpdateService" />
     </application>
 
 </manifest>

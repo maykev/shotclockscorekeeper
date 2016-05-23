@@ -1,0 +1,66 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.spartacus.solitude.match.play.LagWinnerViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Who won the lag?"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <RadioGroup
+            android:id="@+id/lag_winner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <RadioButton
+                android:id="@+id/player_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.playerOneName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                tools:text="Player One" />
+
+            <RadioButton
+                android:layout_marginTop="16dp"
+                android:id="@+id/player_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.playerTwoName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                tools:text="Player Two" />
+
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/buttonStartMatch"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="48dp"
+            android:enabled="@{viewModel.valid}"
+            android:onClick="@{viewModel.onStartGame}"
+            android:text="Play"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse" />
+
+    </LinearLayout>
+
+</layout>

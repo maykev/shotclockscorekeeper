@@ -1,0 +1,72 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.spartacus.solitude.match.create.CreateMatchViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Spinner
+            android:id="@+id/spinnerPlayer1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="@{!viewModel.matchCreating}"
+            android:paddingBottom="16dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center" />
+
+
+        <Spinner
+            android:id="@+id/spinnerPlayer2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="@{!viewModel.matchCreating}"
+            android:paddingBottom="16dp"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center" />
+
+
+        <FrameLayout
+            android:layout_marginTop="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/buttonStartMatch"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="@{viewModel.valid}"
+                android:onClick="@{() -> viewModel.onCreateMatch()}"
+                android:text="Create Match"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+                android:visibility="@{viewModel.matchCreating ? View.GONE : View.VISIBLE}" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="@{viewModel.matchCreating ? View.VISIBLE : View.GONE}" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</layout>

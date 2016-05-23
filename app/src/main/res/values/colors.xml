@@ -2,4 +2,10 @@
 
     <color name="black_overlay">#66000000</color>
 
+    <color name="player_bg">#005b8d</color>
+    <color name="player_bg_extended">#e50000</color>
+    <color name="timer_finished">#e50000</color>
+    <color name="timer_warning">#F2EA00</color>
+    <color name="timer_normal">#00e900</color>
+
 </resources>

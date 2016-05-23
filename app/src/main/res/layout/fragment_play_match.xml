@@ -1,0 +1,131 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.graphics.Typeface"/>
+
+        <variable
+            name="viewModel"
+            type="com.spartacus.solitude.match.play.PlayMatchViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:configChanges="orientation"
+        android:orientation="vertical"
+        tools:context=".PlayMatchActivity">
+
+        <TextView
+            android:id="@+id/textViewTimer"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:onClick="@{viewModel.onTimerClicked}"
+            android:background="@{viewModel.timeRemaining == 0 ? @color/timer_finished : (viewModel.timeRemaining  &lt; 10 ? @color/timer_warning : @color/timer_normal)}"
+            android:enabled="true"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{String.valueOf(viewModel.timeRemaining)}"
+            android:textColor="#ff000000"
+            android:textSize="500sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            tools:text="60" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPlayer1Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:background="@{viewModel.playerOneExtended ? @color/player_bg_extended : @color/player_bg}"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:onClick="@{viewModel.onExtendPlayerOneClicked}"
+                        android:text="@{viewModel.playerOneName}"
+                        android:textAllCaps="@{viewModel.playerOneTurn}"
+                        android:textColor="@{viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
+                        android:textSize="50sp"
+                        android:typeface="sans"
+                        tools:text="Kevin May" />
+
+                </RelativeLayout>
+
+                <com.spartacus.solitude.match.play.SwipeTextView
+                    android:id="@+id/scoreTextViewPlayer1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(viewModel.playerOneScore)}"
+                    android:textColor="#ff000000"
+                    android:textSize="250sp"
+                    android:typeface="sans"
+                    tools:text="3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPlayer2Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@{viewModel.playerTwoExtended ? @color/player_bg_extended : @color/player_bg}"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:onClick="@{viewModel.onExtendPlayerTwoClicked}"
+                        android:text="@{viewModel.playerTwoName}"
+                        android:textAllCaps="@{!viewModel.playerOneTurn}"
+                        android:textColor="@{!viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
+                        android:textSize="50sp"
+                        android:typeface="sans"
+                        tools:text="Kevin May" />
+
+                </RelativeLayout>
+
+                <com.spartacus.solitude.match.play.SwipeTextView
+                    android:id="@+id/scoreTextViewPlayer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="@{String.valueOf(viewModel.playerTwoScore)}"
+                    android:textColor="#ff000000"
+                    android:textSize="250dp"
+                    android:typeface="sans"
+                    tools:text="4" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,61 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.spartacus.solitude.match.StartMatchViewModel" />
+    </data>
+
+
+    <FrameLayout
+        android:paddingLeft="16dp"
+        android:minWidth="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewModel.matchStarting ? View.GONE : View.VISIBLE}">
+
+            <Spinner
+                android:padding="16dp"
+                android:id="@+id/table"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="16dp"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center"
+                app:OnItemSelectedListener="@{viewModel.tableChangeListener}" />
+
+            <Button
+                android:id="@+id/buttonStartMatch"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="48dp"
+                android:enabled="@{viewModel.valid}"
+                android:onClick="@{viewModel.onStartGame}"
+                android:text="Start Match"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.matchStarting ? View.VISIBLE : View.GONE}" />
+
+    </FrameLayout>
+
+
+</layout>
