@@ -42,12 +42,13 @@
                         android:background="#ff005b8d"
                         android:gravity="center_vertical|center_horizontal"
                         android:maxLines="1"
-                        android:textSize="90sp"
+                        android:textSize="90dp"
                         android:text="@{viewModel.playerOneName}"
                         android:textAllCaps="@{viewModel.playerOneTurn}"
                         android:textColor="@{viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
                         android:typeface="sans"
-                        tools:text="Kevin May" />
+                        tools:text="Kevin May"
+                        tools:ignore="SpUsage" />
 
                 </RelativeLayout>
 
@@ -58,10 +59,11 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="#ff000000"
-                    android:textSize="340sp"
+                    android:textSize="340dp"
                     android:typeface="sans"
                     android:text="@{String.valueOf(viewModel.playerOneScore)}"
-                    tools:text="3" />
+                    tools:text="3"
+                    tools:ignore="SpUsage" />
 
             </LinearLayout>
 
@@ -85,9 +87,10 @@
                         android:text="@{viewModel.playerTwoName}"
                         android:textAllCaps="@{!viewModel.playerOneTurn}"
                         android:textColor="@{!viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
-                        android:textSize="90sp"
+                        android:textSize="90dp"
                         android:typeface="sans"
-                        tools:text="Kevin May" />
+                        tools:text="Kevin May"
+                        tools:ignore="SpUsage" />
 
                 </RelativeLayout>
 
@@ -99,10 +102,11 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="#ff000000"
-                    android:textSize="340sp"
+                    android:textSize="340dp"
                     android:typeface="sans"
                     android:text="@{String.valueOf(viewModel.playerTwoScore)}"
-                    tools:text="4" />
+                    tools:text="4"
+                    tools:ignore="SpUsage" />
 
             </LinearLayout>
 

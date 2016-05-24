@@ -31,10 +31,11 @@
             android:maxLines="1"
             android:text="@{String.valueOf(viewModel.timeRemaining)}"
             android:textColor="#ff000000"
-            android:textSize="500sp"
+            android:textSize="500dp"
             android:textStyle="bold"
             android:typeface="sans"
-            tools:text="60" />
+            tools:text="60"
+            tools:ignore="SpUsage" />
 
 
         <LinearLayout
@@ -63,9 +64,10 @@
                         android:text="@{viewModel.playerOneName}"
                         android:textAllCaps="@{viewModel.playerOneTurn}"
                         android:textColor="@{viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
-                        android:textSize="50sp"
+                        android:textSize="50dp"
                         android:typeface="sans"
-                        tools:text="Kevin May" />
+                        tools:text="Kevin May"
+                        tools:ignore="SpUsage" />
 
                 </RelativeLayout>
 
@@ -77,9 +79,10 @@
                     android:singleLine="true"
                     android:text="@{String.valueOf(viewModel.playerOneScore)}"
                     android:textColor="#ff000000"
-                    android:textSize="250sp"
+                    android:textSize="250dp"
                     android:typeface="sans"
-                    tools:text="3" />
+                    tools:text="3"
+                    tools:ignore="SpUsage" />
 
             </LinearLayout>
 
@@ -104,9 +107,10 @@
                         android:text="@{viewModel.playerTwoName}"
                         android:textAllCaps="@{!viewModel.playerOneTurn}"
                         android:textColor="@{!viewModel.playerOneTurn ? @android:color/white : @android:color/darker_gray}"
-                        android:textSize="50sp"
+                        android:textSize="50dp"
                         android:typeface="sans"
-                        tools:text="Kevin May" />
+                        tools:text="Kevin May"
+                        tools:ignore="SpUsage" />
 
                 </RelativeLayout>
 
@@ -121,7 +125,8 @@
                     android:textColor="#ff000000"
                     android:textSize="250dp"
                     android:typeface="sans"
-                    tools:text="4" />
+                    tools:text="4"
+                    tools:ignore="SpUsage" />
 
             </LinearLayout>
 
