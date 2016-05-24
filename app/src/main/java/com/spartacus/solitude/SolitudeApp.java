@@ -34,9 +34,11 @@ public class SolitudeApp extends Application {
                     .addInterceptor(logging)
                     .build();
         } else {
-            Fabric.with(this, new Crashlytics());
             httpClient = new OkHttpClient();
         }
+
+        // TODO: Only enable crashlytics for release builds once we start distributing release builds.
+        Fabric.with(this, new Crashlytics());
 
         this.service = new Retrofit.Builder()
                 .baseUrl("http://tournamentdirectortest.herokuapp.com")
