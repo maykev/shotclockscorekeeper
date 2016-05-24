@@ -23,7 +23,8 @@
         <TextView
             android:id="@+id/textViewTimer"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:onClick="@{viewModel.onTimerClicked}"
             android:background="@{viewModel.timeRemaining == 0 ? @color/timer_finished : (viewModel.timeRemaining  &lt; 10 ? @color/timer_warning : @color/timer_normal)}"
             android:enabled="true"
@@ -31,7 +32,7 @@
             android:maxLines="1"
             android:text="@{String.valueOf(viewModel.timeRemaining)}"
             android:textColor="#ff000000"
-            android:textSize="500dp"
+            android:textSize="400dp"
             android:textStyle="bold"
             android:typeface="sans"
             tools:text="60"
@@ -52,14 +53,14 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/textViewPlayer1Name"
                         android:layout_width="match_parent"
-                        android:layout_height="64dp"
+                        android:layout_height="wrap_content"
                         android:background="@{viewModel.playerOneExtended ? @color/player_bg_extended : @color/player_bg}"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:onClick="@{viewModel.onExtendPlayerOneClicked}"
                         android:text="@{viewModel.playerOneName}"
                         android:textAllCaps="@{viewModel.playerOneTurn}"
@@ -82,7 +83,8 @@
                     android:textSize="250dp"
                     android:typeface="sans"
                     tools:text="3"
-                    tools:ignore="SpUsage" />
+                    tools:ignore="SpUsage"
+                    android:autoText="false" />
 
             </LinearLayout>
 
@@ -94,15 +96,15 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/textViewPlayer2Name"
                         android:layout_width="match_parent"
-                        android:layout_height="64dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:background="@{viewModel.playerTwoExtended ? @color/player_bg_extended : @color/player_bg}"
-                        android:gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
                         android:onClick="@{viewModel.onExtendPlayerTwoClicked}"
                         android:text="@{viewModel.playerTwoName}"
                         android:textAllCaps="@{!viewModel.playerOneTurn}"
@@ -126,6 +128,7 @@
                     android:textSize="250dp"
                     android:typeface="sans"
                     tools:text="4"
+
                     tools:ignore="SpUsage" />
 
             </LinearLayout>
