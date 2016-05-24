@@ -7,11 +7,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.spartacus.solitude.BR;
+import com.spartacus.solitude.R;
 import com.spartacus.solitude.SolitudeApp;
-import com.spartacus.solitude.model.Match;
-import com.spartacus.solitude.model.MatchUpdate;
 import com.spartacus.solitude.SolitudeService;
 import com.spartacus.solitude.databinding.ViewModel;
+import com.spartacus.solitude.model.Match;
+import com.spartacus.solitude.model.MatchUpdate;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +64,7 @@ public class StartMatchViewModel extends ViewModel {
         this.match = match;
         this.listener = listener;
         this.service = SolitudeApp.getInstance().getService();
-        this.tableAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
+        this.tableAdapter = new ArrayAdapter<>(context, R.layout.item_table);
         this.tableChangeListener = new AdapterView.OnItemSelectedListener() {
 
             @Override
