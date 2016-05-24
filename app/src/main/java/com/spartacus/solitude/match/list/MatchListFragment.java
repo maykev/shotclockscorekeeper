@@ -19,10 +19,13 @@ public class MatchListFragment extends ViewModelFragment<MatchListViewModel, Fra
 {
 
     private static final String ARG_TOURNAMENT_ID = "ARG_TOURNAMENT_ID";
+    private static final String ARG_MATCH_STATUS = "ARG_MATCH_STATUS";
 
-    public static MatchListFragment newInstance(int tournamentId) {
+    public static MatchListFragment newInstance(int tournamentId, String status) {
         Bundle args = new Bundle();
         args.putInt(ARG_TOURNAMENT_ID, tournamentId);
+        args.putString(ARG_MATCH_STATUS, status);
+
 
         MatchListFragment fragment = new MatchListFragment();
         fragment.setArguments(args);
@@ -61,7 +64,9 @@ public class MatchListFragment extends ViewModelFragment<MatchListViewModel, Fra
     @Override
     protected MatchListViewModel createViewModel(FragmentMatchListBinding dataBinding) {
         int tournamentId = getArguments().getInt(ARG_TOURNAMENT_ID);
-        return new MatchListViewModel(this, tournamentId);
+        String matchStatus = getArguments().getString(ARG_MATCH_STATUS);
+
+        return new MatchListViewModel(this, tournamentId, matchStatus);
     }
 
     @Override

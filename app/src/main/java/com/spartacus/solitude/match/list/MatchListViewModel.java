@@ -25,6 +25,7 @@ public class MatchListViewModel extends ViewModel {
 
     private final SolitudeService service;
     private final int tournamentId;
+    private final String matchStatus;
     private Subscription subscription;
     private boolean refreshing;
     private final View view;
@@ -34,10 +35,11 @@ public class MatchListViewModel extends ViewModel {
         void showMatchDialog(Match match);
     }
 
-    public MatchListViewModel(View view, int tournamentId) {
+    public MatchListViewModel(View view, int tournamentId, String matchStatus) {
         this.view = view;
         this.tournamentId = tournamentId;
         this.items = new ObservableArrayList<>();
+        this.matchStatus = matchStatus;
         this.service = SolitudeApp.getInstance().getService();
     }
 
@@ -67,7 +69,7 @@ public class MatchListViewModel extends ViewModel {
         }
 
         setRefreshing(true);
-        subscription = service.listMatches(tournamentId)
+        subscription = service.listMatches(tournamentId, matchStatus)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<List<Match>, List<ItemViewModel>>() {

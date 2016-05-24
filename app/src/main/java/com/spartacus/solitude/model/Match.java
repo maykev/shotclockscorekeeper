@@ -11,6 +11,10 @@ import java.util.List;
 
 public class Match implements Parcelable {
 
+    public static final String STATUS_FINISHED = "finished";
+    public static final String STATUS_IN_PROGRESS = "in_progress";
+    public static final String STATUS_CREATED = "created";
+
     public static final Creator<Match> CREATOR = new Creator<Match>() {
         @Override
         public Match createFromParcel(Parcel in) {

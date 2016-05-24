@@ -20,10 +20,10 @@ public interface SolitudeService {
 
     /**
      * Gets the tournament listing.
-     *
+     * <p/>
      * Error Codes:
-     *  - 500 - Unexpected Server Error
-     *
+     * - 500 - Unexpected Server Error
+     * <p/>
      * Note: Empty [] means there are no tournaments `In progress`.
      *
      * @return A retrofit call instance for the request.
@@ -33,10 +33,10 @@ public interface SolitudeService {
 
     /**
      * Gets the current available tables for a tournament.
-     *
+     * <p/>
      * Error Codes:
-     *  - 500 - Unexpected Server Error
-     *
+     * - 500 - Unexpected Server Error
+     * <p/>
      * Note: Empty [] means there are no tables available.
      *
      * @param tournamentId The tournament ID.
@@ -47,24 +47,26 @@ public interface SolitudeService {
 
     /**
      * Gets the tournament listing.
-     *
+     * <p/>
      * Error Codes:
-     *  - 404 – Not Found – Tournament was not found
-     *  - 500 – Unexpected Server Error
+     * - 404 – Not Found – Tournament was not found
+     * - 500 – Unexpected Server Error
      *
      * @param tournamentId The tournament ID.
+     * @param status       The match status. Either {@link Match#STATUS_COMPLETED},
+     *                     {@link Match#STATUS_CREATED} or {@link Match#STATUS_IN_PROGRESS}.
      * @return A retrofit call instance for the request.
      */
     @GET("api/matches")
-    Observable<List<Match>> listMatches(@Query("tournament") int tournamentId);
+    Observable<List<Match>> listMatches(@Query("tournament") int tournamentId, @Query("status") String status);
 
 
     /**
      * Gets the player listing for a tournament.
-     *
+     * <p/>
      * Error Codes:
-     *  - 500 – Unexpected Server Error
-     *
+     * - 500 – Unexpected Server Error
+     * <p/>
      * Note: Empty [] means there are no players.
      *
      * @param tournamentId The tournament ID.
@@ -75,10 +77,10 @@ public interface SolitudeService {
 
     /**
      * Gets the full player listing.
-     *
+     * <p/>
      * Error Codes:
-     *  - 500 – Unexpected Server Error
-     *
+     * - 500 – Unexpected Server Error
+     * <p/>
      * Note: Empty [] means there are no players.
      *
      * @return A retrofit call instance for the request.
@@ -88,11 +90,11 @@ public interface SolitudeService {
 
     /**
      * Updates a match.
-     *
+     * <p/>
      * Status Codes:
-     *  - 404 – Not Found – returned if the match ID or either of the player ID’s can’t be found.
-     *  - 409 – Conflict – The match has already been finished.
-     *  - 500 – Unexpected Server Error
+     * - 404 – Not Found – returned if the match ID or either of the player ID’s can’t be found.
+     * - 409 – Conflict – The match has already been finished.
+     * - 500 – Unexpected Server Error
      *
      * @param matchUpdate The match update.
      * @return A retrofit call instance for the request.
@@ -102,11 +104,11 @@ public interface SolitudeService {
 
     /**
      * Creates a match.
-     *
+     * <p/>
      * Status Codes:
-     *  - 404 – Not Found – returned if the tournament ID or either of the player ID’s can’t be found.
-     *  - 409 – Conflict – The match has already been finished.
-     *  - 500 – Unexpected Server Error
+     * - 404 – Not Found – returned if the tournament ID or either of the player ID’s can’t be found.
+     * - 409 – Conflict – The match has already been finished.
+     * - 500 – Unexpected Server Error
      *
      * @param matchRequest The match request.
      * @return A retrofit call instance for the request.
