@@ -29,7 +29,7 @@ public class StartMatchDialog extends ViewModelDialogFragment<StartMatchViewMode
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setTitle("Select Table");
+        dialog.setTitle("Start Match");
         return dialog;
     }
 

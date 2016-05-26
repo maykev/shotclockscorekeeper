@@ -213,10 +213,10 @@ public class PlayMatchViewModel extends ViewModel {
 
     private void sendScoreUpdate() {
         MatchUpdate update = new MatchUpdate.Builder()
-                .setPlayerScore(match.getPlayers().get(0), playerOneScore)
-                .setPlayerScore(match.getPlayers().get(1), playerTwoScore)
+                .setPlayerScore(match.getPlayerOne(), playerOneScore)
+                .setPlayerScore(match.getPlayerTwo(), playerTwoScore)
                 .setTable(table)
-                .setMatchFinished(isMatchFinished)
+                .setStatus(isMatchFinished ? Match.STATUS_FINISHED : Match.STATUS_IN_PROGRESS)
                 .build();
 
         listener.onMatchUpdate(match, update);

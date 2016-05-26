@@ -17,9 +17,11 @@ import com.spartacus.solitude.model.MatchUpdate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class StartMatchViewModel extends ViewModel {
@@ -52,7 +54,7 @@ public class StartMatchViewModel extends ViewModel {
 
     public void setTablesRefreshing(boolean isTablesRefreshing) {
         this.isTablesRefreshing = isTablesRefreshing;
-        notifyPropertyChanged(BR.matchCreating);
+        notifyPropertyChanged(BR.tablesRefreshing);
     }
 
     public interface Listener {
@@ -100,10 +102,24 @@ public class StartMatchViewModel extends ViewModel {
 
         setTablesRefreshing(true);
 
-        subscription = service.listTables(match.getTournamentId())
+        MatchUpdate matchUpdate = new MatchUpdate.Builder()
+                .setStatus(Match.STATUS_CREATED)
+                .setPlayerScore(match.getPlayerOne(), match.getPlayerOne().getGamesOnTheWire())
+                .setPlayerScore(match.getPlayerTwo(), match.getPlayerTwo().getGamesOnTheWire())
+                .build();
+
+        subscription = service.updateMatch(match.getId(), matchUpdate)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
                 .retry()
+                .flatMap(new Func1<Void, Observable<List<Integer>>>() {
+                    @Override
+                    public Observable<List<Integer>> call(Void aVoid) {
+                        return service.listTables(match.getTournamentId())
+                                .subscribeOn(Schedulers.immediate())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .retry();
+                    }
+                })
                 .subscribe(new Subscriber<List<Integer>>() {
                     @Override
                     public void onCompleted() {
@@ -127,12 +143,11 @@ public class StartMatchViewModel extends ViewModel {
         setMatchStarting(true);
 
         MatchUpdate matchUpdate = new MatchUpdate.Builder()
-                .setMatchFinished(false)
+                .setStatus(Match.STATUS_IN_PROGRESS)
+                .setTable(table)
                 .setPlayerScore(match.getPlayerOne(), match.getPlayerOne().getGamesOnTheWire())
                 .setPlayerScore(match.getPlayerTwo(), match.getPlayerTwo().getGamesOnTheWire())
-                .setTable(table)
                 .build();
-
 
         service.updateMatch(match.getId(), matchUpdate)
                 .delay(1, TimeUnit.SECONDS)

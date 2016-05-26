@@ -22,7 +22,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewModel.matchStarting ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewModel.matchStarting || viewModel.tablesRefreshing ? View.INVISIBLE : View.VISIBLE}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Large"
+                android:text="Select Table" />
 
             <Spinner
                 android:padding="16dp"
@@ -53,7 +59,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.matchStarting ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewModel.matchStarting || viewModel.tablesRefreshing ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
 

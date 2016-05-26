@@ -11,41 +11,44 @@ import java.util.List;
 public class MatchUpdate implements Parcelable {
 
     @SerializedName("table")
-    private int table;
+    private Integer table;
 
-    @SerializedName("finished")
-    private boolean isFinished;
+    @SerializedName("status")
+    private String status;
 
     @SerializedName("players")
     private List<PlayerScore> playerScores;
 
-    MatchUpdate() {
-        // GSON
-    }
-    
     MatchUpdate(Builder builder) {
         this.table = builder.table;
-        this.isFinished = builder.isFinished;
+        this.status = builder.status;
         this.playerScores = new ArrayList<>(builder.playerScores);
     }
 
-
     protected MatchUpdate(Parcel in) {
-        table = in.readInt();
-        isFinished = in.readByte() != 0;
+        if (in.readByte() != 0) {
+            table = in.readInt();
+        }
+        status = in.readString();
         playerScores = in.createTypedArrayList(PlayerScore.CREATOR);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(table);
-        dest.writeByte((byte) (isFinished ? 1 : 0));
-        dest.writeTypedList(playerScores);
     }
 
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (table != null) {
+            dest.writeByte((byte)1);
+            dest.writeInt(table);
+        } else {
+            dest.writeByte((byte)0);
+        }
+
+        dest.writeString(status);
+        dest.writeTypedList(playerScores);
     }
 
     public static final Creator<MatchUpdate> CREATOR = new Creator<MatchUpdate>() {
@@ -64,7 +67,7 @@ public class MatchUpdate implements Parcelable {
     public String toString() {
         return "MatchUpdate{" +
                 "table=" + table +
-                ", isFinished=" + isFinished +
+                ", status=" + status +
                 ", playerScores=" + playerScores +
                 '}';
     }
@@ -76,16 +79,16 @@ public class MatchUpdate implements Parcelable {
 
         MatchUpdate that = (MatchUpdate) o;
 
-        if (table != that.table) return false;
-        if (isFinished != that.isFinished) return false;
-        return !(playerScores != null ? !playerScores.equals(that.playerScores) : that.playerScores != null);
+        if (table != null ? !table.equals(that.table) : that.table != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        return playerScores != null ? playerScores.equals(that.playerScores) : that.playerScores == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = table;
-        result = 31 * result + (isFinished ? 1 : 0);
+        int result = table != null ? table.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (playerScores != null ? playerScores.hashCode() : 0);
         return result;
     }
@@ -141,15 +144,14 @@ public class MatchUpdate implements Parcelable {
 
     public static class Builder {
 
-        private int table = -1;
-        private boolean isFinished;
+        private Integer table;
+        private String status;
         private List<PlayerScore> playerScores = new ArrayList<>();
 
-        public Builder setMatchFinished(boolean isFinished) {
-            this.isFinished = isFinished;
+        public Builder setStatus(String status) {
+            this.status = status;
             return this;
         }
-
 
         public Builder setTable(int table) {
             this.table = table;
@@ -171,14 +173,6 @@ public class MatchUpdate implements Parcelable {
         }
 
         public MatchUpdate build() {
-            if (table < 0) {
-                throw new IllegalStateException("Missing table");
-            }
-
-            if (playerScores.size() != 2) {
-                throw new IllegalStateException("Scores must be provided for 2 players");
-            }
-
             return new MatchUpdate(this);
         }
     }
