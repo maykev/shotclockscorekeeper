@@ -70,7 +70,7 @@ public class MatchListViewModel extends ViewModel {
 
         setRefreshing(true);
         subscription = service.listMatches(tournamentId, matchStatus)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<List<Match>, List<ItemViewModel>>() {
                     @Override

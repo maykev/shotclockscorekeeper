@@ -102,7 +102,7 @@ public class StartMatchViewModel extends ViewModel {
         setTablesRefreshing(true);
 
         subscription = service.listTables(match.getTournamentId())
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
                 .subscribe(new Subscriber<List<Integer>>() {
@@ -144,8 +144,7 @@ public class StartMatchViewModel extends ViewModel {
                 .build();
 
         service.updateMatch(match.getId(), matchUpdate)
-                .delay(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Void>() {
                     @Override

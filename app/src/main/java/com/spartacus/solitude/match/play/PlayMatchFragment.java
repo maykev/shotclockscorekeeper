@@ -13,7 +13,6 @@ import com.spartacus.solitude.model.MatchPlayer;
 import com.spartacus.solitude.model.MatchUpdate;
 import com.spartacus.solitude.databinding.FragmentPlayMatchBinding;
 import com.spartacus.solitude.databinding.ViewModelFragment;
-import com.spartacus.solitude.MatchUpdateService;
 
 
 public class PlayMatchFragment extends ViewModelFragment<PlayMatchViewModel,FragmentPlayMatchBinding> implements PlayMatchViewModel.Listener {
@@ -71,16 +70,6 @@ public class PlayMatchFragment extends ViewModelFragment<PlayMatchViewModel,Frag
     @Override
     public void onFinished() {
         getActivity().finish();
-    }
-
-    @Override
-    public void onMatchUpdate(Match match, MatchUpdate update) {
-        Intent intent = new Intent(getContext(), MatchUpdateService.class)
-                .setAction(MatchUpdateService.ACTION_MATCH_UPDATE)
-                .putExtra(MatchUpdateService.EXTRA_MATCH, match)
-                .putExtra(MatchUpdateService.EXTRA_MATCH_UPDATE, update);
-
-        getContext().startService(intent);
     }
 
     @Override

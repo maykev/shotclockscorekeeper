@@ -3,9 +3,12 @@ package com.spartacus.solitude.match.play;
 
 import android.databinding.Bindable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.spartacus.solitude.BR;
+import com.spartacus.solitude.SolitudeApp;
+import com.spartacus.solitude.SolitudeService;
 import com.spartacus.solitude.model.Match;
 import com.spartacus.solitude.model.MatchPlayer;
 import com.spartacus.solitude.model.MatchUpdate;
@@ -14,6 +17,7 @@ import com.spartacus.solitude.databinding.ViewModel;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Func1;
 
@@ -22,7 +26,6 @@ public class PlayMatchViewModel extends ViewModel {
     public interface Listener {
         void onCheckMatchWinner(Match match, MatchPlayer player);
         void onFinished();
-        void onMatchUpdate(Match match, MatchUpdate update);
     }
 
     private static final int SHOT_CLOCK_SECONDS = 30;
@@ -31,6 +34,7 @@ public class PlayMatchViewModel extends ViewModel {
     private final Listener listener;
     private final Match match;
     private final int table;
+    private final SolitudeService service;
 
     // State
     private int playerOneScore;
@@ -54,6 +58,7 @@ public class PlayMatchViewModel extends ViewModel {
         this.table = table;
         this.playerOneScore = match.getPlayerOne().getGamesOnTheWire();
         this.playerTwoScore = match.getPlayerTwo().getGamesOnTheWire();
+        this.service = SolitudeApp.getInstance().getService();
 
         this.playerTwoScoreListener = new SwipeTextView.OnSwipeListener() {
             @Override
@@ -219,7 +224,30 @@ public class PlayMatchViewModel extends ViewModel {
                 .setStatus(isMatchFinished ? Match.STATUS_FINISHED : Match.STATUS_IN_PROGRESS)
                 .build();
 
-        listener.onMatchUpdate(match, update);
+        Observable<Void> obserable = service.updateMatch(match.getId(), update)
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler());
+
+        if (isMatchFinished) {
+            obserable.retry();
+        }
+
+        obserable.subscribe(new Subscriber<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("MatchUpdate", "Update finished: + update");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("MatchUpdate", "Failed to update: ", e);
+                    }
+
+                    @Override
+                    public void onNext(Void aVoid) {
+
+                    }
+                });
+
     }
 
     private void startTimer() {

@@ -9,9 +9,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.spartacus.solitude.MatchUpdateService;
+import com.spartacus.solitude.SolitudeApp;
 import com.spartacus.solitude.model.Match;
 import com.spartacus.solitude.model.MatchUpdate;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class MatchActivity extends AppCompatActivity {
 
@@ -89,10 +92,25 @@ public class MatchActivity extends AppCompatActivity {
                                     .setPlayerScore(match.getPlayerTwo(), match.getPlayerTwo().getGamesOnTheWire())
                                     .build();
 
-                            getContext().startService(new Intent(getContext(), MatchUpdateService.class)
-                                    .setAction(MatchUpdateService.ACTION_MATCH_UPDATE)
-                                    .putExtra(MatchUpdateService.EXTRA_MATCH_UPDATE, matchUpdate)
-                                    .putExtra(MatchUpdateService.EXTRA_MATCH, match));
+                            SolitudeApp.getInstance().getService()
+                                    .updateMatch(match.getId(), matchUpdate)
+                                    .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .retry()
+                                    .subscribe(new Subscriber<Void>() {
+                                        @Override
+                                        public void onCompleted() {
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(Void aVoid) {
+                                        }
+                                    });
                         }
                     })
                     .create();

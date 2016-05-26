@@ -19,7 +19,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 
 public class CreateMatchViewModel extends ViewModel {
@@ -106,7 +105,7 @@ public class CreateMatchViewModel extends ViewModel {
 
         createGameSubscription = service.createMatch(request)
                 .delay(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Match>() {
                     @Override
@@ -136,7 +135,7 @@ public class CreateMatchViewModel extends ViewModel {
         }
 
         refreshPlayersSubscription = service.listPlayers(tournamentId)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<List<Player>, List<PlayerViewModel>>() {
                     @Override
