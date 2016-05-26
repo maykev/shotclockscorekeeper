@@ -34,7 +34,7 @@ public class StartMatchViewModel extends ViewModel {
 
     private boolean isTablesRefreshing;
     private boolean isMatchStarting;
-    public int table = -1;
+    public int tableIndex = -1;
 
     @Bindable
     public boolean isMatchStarting() {
@@ -70,13 +70,13 @@ public class StartMatchViewModel extends ViewModel {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                table = tableAdapter.getItem(position);
+                tableIndex = position;
                 notifyPropertyChanged(BR.valid);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                table = -1;
+                tableIndex = -1;
                 notifyPropertyChanged(BR.valid);
             }
         };
@@ -134,6 +134,8 @@ public class StartMatchViewModel extends ViewModel {
     public void onStartGame(View view) {
         setMatchStarting(true);
 
+        final int table = tableAdapter.getItem(tableIndex);
+
         MatchUpdate matchUpdate = new MatchUpdate.Builder()
                 .setStatus(Match.STATUS_IN_PROGRESS)
                 .setTable(table)
@@ -153,9 +155,9 @@ public class StartMatchViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        setMatchStarting(false);
                         listener.onToast("Table already taken");
                         refreshTables();
+                        setMatchStarting(false);
                     }
 
                     @Override
@@ -176,6 +178,6 @@ public class StartMatchViewModel extends ViewModel {
 
     @Bindable
     public boolean isValid() {
-        return table != -1;
+        return tableIndex != -1;
     }
 }
