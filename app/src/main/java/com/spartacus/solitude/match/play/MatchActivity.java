@@ -9,7 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.spartacus.solitude.MatchUpdateService;
 import com.spartacus.solitude.model.Match;
+import com.spartacus.solitude.model.MatchUpdate;
 
 public class MatchActivity extends AppCompatActivity {
 
@@ -56,7 +58,7 @@ public class MatchActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-    
+
     public static class ExitMatchDialog extends DialogFragment {
 
         @Override
@@ -73,6 +75,24 @@ public class MatchActivity extends AppCompatActivity {
                     .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             getActivity().finish();
+
+                            // TODO move this to a better place
+
+                            Match match = getActivity().getIntent().getParcelableExtra(EXTRA_MATCH);
+                            if (match == null) {
+                                return;
+                            }
+
+                            MatchUpdate matchUpdate = new MatchUpdate.Builder()
+                                    .setStatus(Match.STATUS_CREATED)
+                                    .setPlayerScore(match.getPlayerOne(), match.getPlayerOne().getGamesOnTheWire())
+                                    .setPlayerScore(match.getPlayerTwo(), match.getPlayerTwo().getGamesOnTheWire())
+                                    .build();
+
+                            getContext().startService(new Intent(getContext(), MatchUpdateService.class)
+                                    .setAction(MatchUpdateService.ACTION_MATCH_UPDATE)
+                                    .putExtra(MatchUpdateService.EXTRA_MATCH_UPDATE, matchUpdate)
+                                    .putExtra(MatchUpdateService.EXTRA_MATCH, match));
                         }
                     })
                     .create();
