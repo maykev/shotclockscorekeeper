@@ -282,7 +282,6 @@ public class PlayMatchViewModel extends ViewModel {
     public void setMatchFinished(boolean isMatchFinished) {
         this.isMatchFinished = isMatchFinished;
         if (isMatchFinished) {
-            sendScoreUpdate();
             listener.onFinished();
         } else {
             playerOneScore = Math.min(playerOneScore, match.getRace() -1);
@@ -291,6 +290,8 @@ public class PlayMatchViewModel extends ViewModel {
             notifyChange();
             startTimer();
         }
+
+        sendScoreUpdate();
     }
 
     private void updatePlayerScore(final MatchPlayer player, int score) {
@@ -310,11 +311,11 @@ public class PlayMatchViewModel extends ViewModel {
         if (score == match.getRace()) {
             listener.onCheckMatchWinner(match, player);
         } else {
-            sendScoreUpdate();
             startNewGame();
             isPlayerOneTurn = !isPlayerOneTurn;
         }
 
         notifyChange();
+        sendScoreUpdate();
     }
 }
