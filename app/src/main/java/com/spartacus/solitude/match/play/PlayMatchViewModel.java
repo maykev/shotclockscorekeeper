@@ -45,6 +45,7 @@ public class PlayMatchViewModel extends ViewModel {
     private int timeRemaining;
     private boolean isPlayerOneTurn;
     private boolean isMatchFinished;
+    private boolean isExtensionsAllowed;
 
     // Subscriptions
     private Subscription timerSubscription;
@@ -101,6 +102,8 @@ public class PlayMatchViewModel extends ViewModel {
         outState.putBoolean("isPlayerOneExtended", isPlayerOneExtended);
         outState.putBoolean("isPlayerTwoExtended", isPlayerTwoExtended);
         outState.putBoolean("isMatchFinished", isMatchFinished);
+        outState.putBoolean("isExtensionsAllowed", isExtensionsAllowed);
+
     }
 
     @Override
@@ -114,6 +117,8 @@ public class PlayMatchViewModel extends ViewModel {
         isPlayerOneExtended = savedInstanceState.getBoolean("isPlayerOneExtended");
         isPlayerTwoExtended = savedInstanceState.getBoolean("isPlayerTwoExtended");
         isMatchFinished = savedInstanceState.getBoolean("isMatchFinished");
+        isExtensionsAllowed = savedInstanceState.getBoolean("isExtensionsAllowed");
+
     }
 
     @Override
@@ -185,8 +190,9 @@ public class PlayMatchViewModel extends ViewModel {
 
 
     public void onExtendPlayerOneClicked(View view) {
-        if (!isPlayerOneExtended) {
+        if (!isPlayerOneExtended && isExtensionsAllowed) {
             isPlayerOneExtended = true;
+            isExtensionsAllowed = false;
             notifyPropertyChanged(BR.playerOneExtended);
 
 
@@ -197,8 +203,9 @@ public class PlayMatchViewModel extends ViewModel {
     }
 
     public void onExtendPlayerTwoClicked(View view) {
-        if (!isPlayerTwoExtended) {
+        if (!isPlayerTwoExtended && isExtensionsAllowed) {
             isPlayerTwoExtended = true;
+            isExtensionsAllowed = false;
             notifyPropertyChanged(BR.playerTwoExtended);
 
             stopTimer();
@@ -213,6 +220,8 @@ public class PlayMatchViewModel extends ViewModel {
         if (timeRemaining != SHOT_CLOCK_AFTER_BREAK_SECONDS) {
             setTimeRemaining(SHOT_CLOCK_SECONDS);
         }
+
+        isExtensionsAllowed = true;
 
         startTimer();
     }
@@ -275,6 +284,7 @@ public class PlayMatchViewModel extends ViewModel {
         setTimeRemaining(SHOT_CLOCK_AFTER_BREAK_SECONDS);
         isPlayerOneExtended = false;
         isPlayerTwoExtended = false;
+        isExtensionsAllowed = false;
         notifyChange();
     }
 
