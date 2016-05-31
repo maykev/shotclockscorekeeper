@@ -9,6 +9,7 @@ import com.spartacus.solitude.SolitudeService;
 import com.spartacus.solitude.databinding.ViewModel;
 import com.spartacus.solitude.SolitudeApp;
 import com.spartacus.solitude.model.Match;
+import com.spartacus.solitude.utils.SubscriptionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 public class MatchListViewModel extends ViewModel {
 
@@ -64,9 +64,7 @@ public class MatchListViewModel extends ViewModel {
     }
 
     private void refreshMatches() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(subscription);
 
         setRefreshing(true);
         subscription = service.listMatches(tournamentId, matchStatus)
@@ -104,9 +102,7 @@ public class MatchListViewModel extends ViewModel {
 
     @Override
     public void onDestroy() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(subscription);
     }
 
     public class ItemViewModel extends BaseObservable {

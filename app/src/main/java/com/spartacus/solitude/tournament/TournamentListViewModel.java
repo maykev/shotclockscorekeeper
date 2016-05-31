@@ -13,6 +13,7 @@ import com.spartacus.solitude.model.Tournament;
 import com.spartacus.solitude.databinding.ViewModel;
 import com.spartacus.solitude.match.create.CreateMatchActivity;
 import com.spartacus.solitude.match.list.MatchListActivity;
+import com.spartacus.solitude.utils.SubscriptionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 public class TournamentListViewModel extends ViewModel {
 
@@ -64,9 +64,7 @@ public class TournamentListViewModel extends ViewModel {
     }
 
     private void refreshTournaments() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(subscription);
 
         setRefreshing(true);
         subscription = service.listTournaments()
@@ -104,9 +102,7 @@ public class TournamentListViewModel extends ViewModel {
 
     @Override
     public void onDestroy() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(subscription);
     }
 
     public ObservableArrayList<ItemViewModel> getItems() {

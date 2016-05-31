@@ -13,6 +13,7 @@ import com.spartacus.solitude.model.Match;
 import com.spartacus.solitude.model.MatchPlayer;
 import com.spartacus.solitude.model.MatchUpdate;
 import com.spartacus.solitude.databinding.ViewModel;
+import com.spartacus.solitude.utils.SubscriptionUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -217,7 +218,7 @@ public class PlayMatchViewModel extends ViewModel {
     }
 
     private void sendScoreUpdate() {
-        MatchUpdate update = new MatchUpdate.Builder()
+        final MatchUpdate update = new MatchUpdate.Builder()
                 .setPlayerScore(match.getPlayerOne(), playerOneScore)
                 .setPlayerScore(match.getPlayerTwo(), playerTwoScore)
                 .setTable(table)
@@ -234,7 +235,7 @@ public class PlayMatchViewModel extends ViewModel {
         obserable.subscribe(new Subscriber<Void>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("MatchUpdate", "Update finished: + update");
+                        Log.d("MatchUpdate", "Update finished: " + update);
                     }
 
                     @Override
@@ -266,9 +267,7 @@ public class PlayMatchViewModel extends ViewModel {
     }
 
     private void stopTimer() {
-        if (timerSubscription != null) {
-            timerSubscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(timerSubscription);
     }
 
     private void startNewGame() {

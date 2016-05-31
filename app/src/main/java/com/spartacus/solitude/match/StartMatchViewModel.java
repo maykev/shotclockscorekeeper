@@ -13,15 +13,14 @@ import com.spartacus.solitude.SolitudeService;
 import com.spartacus.solitude.databinding.ViewModel;
 import com.spartacus.solitude.model.Match;
 import com.spartacus.solitude.model.MatchUpdate;
+import com.spartacus.solitude.utils.SubscriptionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class StartMatchViewModel extends ViewModel {
 
@@ -30,7 +29,9 @@ public class StartMatchViewModel extends ViewModel {
     private final Match match;
     private final Listener listener;
     private final SolitudeService service;
-    private Subscription subscription;
+
+    private Subscription refreshTablesSubscription;
+    private Subscription startGameSubscription;
 
     private boolean isTablesRefreshing;
     private boolean isMatchStarting;
@@ -95,13 +96,11 @@ public class StartMatchViewModel extends ViewModel {
     }
 
     private void refreshTables() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(refreshTablesSubscription);
 
         setTablesRefreshing(true);
 
-        subscription = service.listTables(match.getTournamentId())
+        refreshTablesSubscription = service.listTables(match.getTournamentId())
                 .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
@@ -132,6 +131,8 @@ public class StartMatchViewModel extends ViewModel {
     }
 
     public void onStartGame(View view) {
+        SubscriptionUtils.unsubscribe(startGameSubscription);
+
         setMatchStarting(true);
 
         final int table = tableAdapter.getItem(tableIndex);
@@ -143,7 +144,7 @@ public class StartMatchViewModel extends ViewModel {
                 .setPlayerScore(match.getPlayerTwo(), match.getPlayerTwo().getGamesOnTheWire())
                 .build();
 
-        service.updateMatch(match.getId(), matchUpdate)
+        startGameSubscription = service.updateMatch(match.getId(), matchUpdate)
                 .subscribeOn(SolitudeApp.getInstance().getBackgroundScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Void>() {
@@ -170,9 +171,7 @@ public class StartMatchViewModel extends ViewModel {
     public void onDestroy() {
         super.onDestroy();
 
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        SubscriptionUtils.unsubscribe(startGameSubscription, refreshTablesSubscription);
     }
 
     @Bindable
