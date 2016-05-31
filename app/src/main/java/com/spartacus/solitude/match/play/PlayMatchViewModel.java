@@ -297,6 +297,11 @@ public class PlayMatchViewModel extends ViewModel {
         if (player.getGamesOnTheWire() > score) {
             return;
         }
+
+        // Prevents clicking too fast when checking if a player won
+        if (playerOneScore == match.getRace() || playerTwoScore == match.getRace()) {
+            return;
+        }
         score = Math.min(score, match.getRace());
 
         stopTimer();
