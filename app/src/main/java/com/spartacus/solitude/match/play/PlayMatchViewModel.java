@@ -287,7 +287,6 @@ public class PlayMatchViewModel extends ViewModel {
             playerTwoScore = Math.min(playerTwoScore, match.getRace() -1);
 
             notifyChange();
-            startTimer();
         }
 
         sendScoreUpdate();
@@ -315,10 +314,10 @@ public class PlayMatchViewModel extends ViewModel {
         if (score == match.getRace()) {
             listener.onCheckMatchWinner(match, player);
         } else {
-            startNewGame();
             isPlayerOneTurn = !isPlayerOneTurn;
         }
 
+        startNewGame();
         notifyChange();
         sendScoreUpdate();
     }
