@@ -14,6 +14,11 @@ public class Player implements Parcelable {
     @SerializedName("id")
     private int id;
 
+    protected Player(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
     protected Player(Parcel in) {
         name = in.readString();
         id = in.readInt();

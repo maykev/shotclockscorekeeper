@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Match implements Parcelable {
 
+    public static final int STANDARD_MATCH = 1;
+    public static final int FREE_PLAY_MATCH = 2;
+
     public static final String STATUS_FINISHED = "finished";
     public static final String STATUS_IN_PROGRESS = "in_progress";
     public static final String STATUS_CREATED = "created";
@@ -45,11 +48,15 @@ public class Match implements Parcelable {
     @SerializedName("status")
     private String status;
 
+    private int matchType = STANDARD_MATCH;
+
     protected Match(Parcel in) {
         id = in.readInt();
         tournamentId = in.readInt();
         race = in.readInt();
+        matchType = in.readInt();
         status = in.readString();
+
 
         players = new ArrayList<>();
         in.readTypedList(players, MatchPlayer.CREATOR);
@@ -59,11 +66,22 @@ public class Match implements Parcelable {
         }
     }
 
+    private Match(Builder builder) {
+        this.id = builder.id;
+        this.tournamentId = builder.tournamentId;
+        this.race = builder.race;
+        this.status = builder.status;
+        this.players = new ArrayList<>(builder.players);
+        this.table = builder.table;
+        this.matchType = builder.matchType;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(tournamentId);
         dest.writeInt(race);
+        dest.writeInt(matchType);
         dest.writeString(status);
         dest.writeTypedList(players);
 
@@ -149,5 +167,62 @@ public class Match implements Parcelable {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getMatchType() {
+        return matchType;
+    }
+
+    public static class Builder {
+        private Integer table;
+        private String status = STATUS_CREATED;
+        private int id;
+        private int race;
+        private int tournamentId;
+        private int matchType = STANDARD_MATCH;
+        private List<MatchPlayer> players = new ArrayList<>();
+
+        public Builder addPlayer(MatchPlayer matchPlayer) {
+            players.add(matchPlayer);
+            return this;
+        }
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setTournamentId(int tournamentId) {
+            this.tournamentId = tournamentId;
+            return this;
+        }
+
+        public Builder setRace(int race) {
+            this.race = race;
+            return this;
+        }
+
+        public Builder setMatchType(int matchType) {
+            this.matchType = matchType;
+            return this;
+        }
+
+        public Builder setMatchStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder setTable(int table) {
+            this.table = table;
+            return this;
+        }
+
+        public Match build() {
+            if (players.size() != 2) {
+                throw new IllegalArgumentException("Match must contain 2 players");
+            }
+
+            return new Match(this);
+        }
     }
 }

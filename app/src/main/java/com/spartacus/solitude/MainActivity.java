@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 1; // hide free play for now
+            return 2;
         }
 
         @Override

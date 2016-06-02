@@ -18,6 +18,12 @@ public class MatchPlayer extends Player implements Parcelable {
         displayName = in.readString();
     }
 
+    public MatchPlayer(Builder builder) {
+        super(builder.name, builder.id);
+        this.gamesOnTheWire = builder.gamesOnTheWire;
+        this.displayName = builder.displayName;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -76,5 +82,36 @@ public class MatchPlayer extends Player implements Parcelable {
                 "gamesOnTheWire=" + gamesOnTheWire +
                 ", displayName='" + displayName + '\'' +
                 '}';
+    }
+
+    public static class Builder {
+        private int gamesOnTheWire;
+        private int id;
+        private String displayName;
+        private String name;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setGamesOnTheWire(int gamesOnTheWire) {
+            this.gamesOnTheWire = gamesOnTheWire;
+            return this;
+        }
+
+        public Builder setDisplayName(String displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public MatchPlayer build() {
+            return new MatchPlayer(this);
+        }
     }
 }

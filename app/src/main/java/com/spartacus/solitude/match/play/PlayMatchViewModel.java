@@ -227,6 +227,10 @@ public class PlayMatchViewModel extends ViewModel {
     }
 
     private void sendScoreUpdate() {
+        if (match.getMatchType() == Match.FREE_PLAY_MATCH) {
+            return;
+        }
+
         final MatchUpdate update = new MatchUpdate.Builder()
                 .setPlayerScore(match.getPlayerOne(), playerOneScore)
                 .setPlayerScore(match.getPlayerTwo(), playerTwoScore)

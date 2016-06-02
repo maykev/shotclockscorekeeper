@@ -28,27 +28,29 @@ public class MatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Match match = getIntent().getParcelableExtra(EXTRA_MATCH);
+        int table = getIntent().getIntExtra(EXTRA_TABLE, -1);
+
         if (match == null) {
             Log.e(TAG, "Activity requires a match");
             finish();
             return;
         }
 
-        int table = getIntent().getIntExtra(EXTRA_TABLE, -1);
-        if (table == -1) {
-            Log.e(TAG, "Activity requires a table");
-            finish();
-            return;
-        }
-
         if (savedInstanceState == null) {
-
             getSupportFragmentManager().beginTransaction()
                     .add(android.R.id.content, LagWinnerFragment.newInstance(match, table))
                     .commit();
         }
 
-        setTitle("Match - Table " + table);
+        switch (match.getMatchType()) {
+            case Match.FREE_PLAY_MATCH:
+                setTitle("Free Play");
+                break;
+            case Match.STANDARD_MATCH:
+                setTitle("Match - Table " + table);
+                break;
+        }
+
     }
 
     @Override
@@ -82,7 +84,7 @@ public class MatchActivity extends AppCompatActivity {
                             // TODO move this to a better place
 
                             Match match = getActivity().getIntent().getParcelableExtra(EXTRA_MATCH);
-                            if (match == null) {
+                            if (match == null || match.getMatchType() == Match.FREE_PLAY_MATCH) {
                                 return;
                             }
 

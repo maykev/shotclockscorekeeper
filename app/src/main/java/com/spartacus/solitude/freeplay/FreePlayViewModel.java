@@ -1,13 +1,16 @@
 package com.spartacus.solitude.freeplay;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.spartacus.solitude.BR;
 import com.spartacus.solitude.databinding.ViewModel;
+import com.spartacus.solitude.match.play.MatchActivity;
+import com.spartacus.solitude.model.Match;
+import com.spartacus.solitude.model.MatchPlayer;
 
 public class FreePlayViewModel extends ViewModel {
 
@@ -58,6 +61,24 @@ public class FreePlayViewModel extends ViewModel {
     }
 
     public void onStartGameClicked(Context context) {
-        Log.e("WHAT", "COOL: " + getPlayerOne() + " v " + getPlayerTwo());
+        Match match = new Match.Builder()
+                .setMatchType(Match.FREE_PLAY_MATCH)
+                .addPlayer(new MatchPlayer.Builder()
+                        .setDisplayName(playerOne)
+                        .setName(playerOne)
+                        .setId(1)
+                        .build())
+                .addPlayer(new MatchPlayer.Builder()
+                        .setDisplayName(playerTwo)
+                        .setName(playerTwo)
+                        .setId(2)
+                        .build())
+                .setRace(9)
+                .build();
+
+        Intent intent = new Intent(context, MatchActivity.class)
+                .putExtra(MatchActivity.EXTRA_MATCH, match);
+
+        context.startActivity(intent);
     }
 }
